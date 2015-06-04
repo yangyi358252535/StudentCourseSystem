@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+			http://www.springframework.org/schema/tx
+			http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+			http://www.springframework.org/schema/aop
+			http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.StudentCourseSystem" />
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close"
+		p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://localhost:3306/student_course_system1"
+		p:username="root"
+		p:password="root">
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>com.StudentCourseSystem.bean</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider
+				</prop>
+				<!--获取connnection时测试是否有效-->
+				<prop key="hibernate.c3p0.testConnectionOnCheckin">true</prop>
+				<prop key="hibernate.c3p0.automaticTestTable">t_master</prop>
+				<prop key="hibernate.c3p0.idleConnectionTestPeriod">18000</prop>
+				<prop key="hibernate.c3p0.maxIdleTime">25000</prop>
+				<prop key="hibernate.c3p0.testConnectionOnCheckout">true</prop>
+				<!--连接池的最小连接数-->
+				<prop key="hibernate.c3p0.min_size">5</prop>
+				<!-- 最大连接数 -->
+				<prop key="hibernate.c3p0.max_size">30</prop>
+				<!-- 连接超时时间 -->
+				<prop key="hibernate.c3p0.timeout">1800</prop>
+				<!--statemnets 缓存大小 -->
+				<prop key="hibernate.c3p0.max_statements">100</prop>
+				<!-- 每隔多少秒检测连接是否可正常使用 -->
+				<prop key="hibernate.c3p0.idle_test_period">121</prop>
+				<!-- 当池中的连接耗尽的时候，一次性增加的连接数量 , 默认为 3 -->
+				<prop key="hibernate.c3p0.acquire_increment">1</prop>
+				<prop key="hibernate.c3p0.validate">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.format_sql">false</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="cacheQueries" value="false"></property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<aop:config>
+		<aop:pointcut id="bussinessService"
+			expression="execution(public * com.StudentCourseSystem.Service.*.*(..))" />
+		<aop:advisor pointcut-ref="bussinessService" advice-ref="txAdvice" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="modify*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+			<tx:method name="query*" propagation="REQUIRED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+</beans>
