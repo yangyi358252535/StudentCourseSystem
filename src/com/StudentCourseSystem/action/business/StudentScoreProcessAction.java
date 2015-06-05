@@ -1,4 +1,4 @@
-package com.StudentCourseSystem.action.myinfo;
+package com.StudentCourseSystem.action.business;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import com.StudentCourseSystem.tool.BaseProcessAction;
 @Scope("prototype")
 @ParentPackage("main")
 @Namespace("/business/course")
-public class CourseProcessAction extends BaseProcessAction {
+public class StudentScoreProcessAction extends BaseProcessAction {
 	private static final long serialVersionUID = 4905860383844315738L;
 	private TCourse course = new TCourse();
 	private ICourseService courseService;

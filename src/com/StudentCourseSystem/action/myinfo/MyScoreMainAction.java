@@ -17,8 +17,6 @@ import com.StudentCourseSystem.Service.ICourseService;
 import com.StudentCourseSystem.Service.ISpecialtyService;
 import com.StudentCourseSystem.Service.ITeacherService;
 import com.StudentCourseSystem.bean.TCourse;
-import com.StudentCourseSystem.bean.TMaster;
-import com.StudentCourseSystem.bean.TSpecialty;
 import com.StudentCourseSystem.bean.TTeacher;
 import com.StudentCourseSystem.tool.PagingUtil;
 import com.StudentCourseSystem.tool.SystemConstant;
@@ -26,27 +24,23 @@ import com.StudentCourseSystem.tool.SystemConstant;
 @Controller
 @Scope("prototype")
 @ParentPackage("main")
-@Namespace("/business/course")
+@Namespace("/myinfo/score")
 @Results({
-		@Result(name = "toList", location = "/business/course/list.jsp"),
-		@Result(name = "toMain", location = "/business/course/main.jsp"),
-		@Result(name = "toModify", location = "/business/course/modify.jsp"),
-		@Result(name = "toAdd", location = "/business/course/add.jsp"),
+		@Result(name = "toList", location = "/myinfo/score/list.jsp"),
+		@Result(name = "toMain", location = "/myinfo/score/main.jsp"),
+		@Result(name = "toModify", location = "/myinfo/score/modify.jsp"),
+		@Result(name = "toAdd", location = "/myinfo/score/add.jsp"),
 		@Result(name = "LoadId", type = "json", params = { "includeProperties",
 				"currentPageIds" }),
 		@Result(name = "LoadAllId", type = "json", params = {
 				"includeProperties", "currentAllIds" }) })
-public class CourseMainAction extends PagingUtil<TCourse> {
-	private static final long serialVersionUID = -5713017370765183339L;
+public class MyScoreMainAction extends PagingUtil<TCourse> {
+	private static final long serialVersionUID = -8899972362050315933L;
 	private TCourse course;
 	private ICourseService courseService;
 	private ISpecialtyService specialtyService;
 	private ITeacherService teacherService;
 	private List<TTeacher> teacherList;
-	private List<TSpecialty> specialtyList;
-	private List<TMaster> zhouciList;
-	private List<TMaster> jieshuList;
-	private List<TMaster> weizhiList;
 	private String currentPageIds = null;
 	private String currentAllIds = null;
 	private String flagString = null;
@@ -71,31 +65,23 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 
 	@Action(value = "toAdd")
 	public String toAdd() {
-		zhouciList = getMasterListByCode("001");
-		jieshuList = getMasterListByCode("002");
-		weizhiList = getMasterListByCode("003");
 		Object teacher = getSession().get(SystemConstant.CURRENTUSER);
 		if(teacher instanceof TTeacher){
 			teacherList=teacherService.getAllTeacher(((TTeacher)teacher).getId());
 		}else{
 			teacherList=teacherService.getAllTeacher(0);
 		}
-		specialtyList=specialtyService.getAllSpecialty();
 		return "toAdd";
 	}
 
 	@Action(value = "toModify")
 	public String toModify() {
-		zhouciList = getMasterListByCode("001");
-		jieshuList = getMasterListByCode("002");
-		weizhiList = getMasterListByCode("003");
 		Object teacher = getSession().get(SystemConstant.CURRENTUSER);
 		if(teacher instanceof TTeacher){
 			teacherList=teacherService.getAllTeacher(((TTeacher)teacher).getId());
 		}else{
 			teacherList=teacherService.getAllTeacher(0);
 		}
-		specialtyList=specialtyService.getAllSpecialty();
 		course = courseService.getCourse(course.getId());
 		return "toModify";
 	}
@@ -233,33 +219,6 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 	}
 
 	@JSON(serialize = false)
-	public List<TMaster> getZhouciList() {
-		return zhouciList;
-	}
-
-	public void setZhouciList(List<TMaster> zhouciList) {
-		this.zhouciList = zhouciList;
-	}
-
-	@JSON(serialize = false)
-	public List<TMaster> getJieshuList() {
-		return jieshuList;
-	}
-
-	public void setJieshuList(List<TMaster> jieshuList) {
-		this.jieshuList = jieshuList;
-	}
-
-	@JSON(serialize = false)
-	public List<TMaster> getWeizhiList() {
-		return weizhiList;
-	}
-
-	public void setWeizhiList(List<TMaster> weizhiList) {
-		this.weizhiList = weizhiList;
-	}
-
-	@JSON(serialize = false)
 	public List<TTeacher> getTeacherList() {
 		return teacherList;
 	}
@@ -275,15 +234,6 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 
 	public void setSpecialtyService(ISpecialtyService specialtyService) {
 		this.specialtyService = specialtyService;
-	}
-
-	@JSON(serialize = false)
-	public List<TSpecialty> getSpecialtyList() {
-		return specialtyList;
-	}
-
-	public void setSpecialtyList(List<TSpecialty> specialtyList) {
-		this.specialtyList = specialtyList;
 	}
 	@JSON(serialize = false)
 	public ITeacherService getTeacherService() {
