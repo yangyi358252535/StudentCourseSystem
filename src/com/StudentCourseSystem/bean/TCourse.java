@@ -17,14 +17,6 @@ public class TCourse {
 	private String name;
 	private TTeacher teacher = new TTeacher();
 	private TSpecialty specialty = new TSpecialty();
-	// zhou ci
-	private TMaster zhouci = new TMaster();
-	// jie shu
-	private TMaster jieshu = new TMaster();
-	// jiaoshi
-	private TMaster weizhi = new TMaster();
-	private int allStuedentCount;
-	private int currentStuedentCount;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -62,51 +54,5 @@ public class TCourse {
 
 	public void setSpecialty(TSpecialty specialty) {
 		this.specialty = specialty;
-	}
-
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "zhouci_id")
-	public TMaster getZhouci() {
-		return zhouci;
-	}
-
-	public void setZhouci(TMaster zhouci) {
-		this.zhouci = zhouci;
-	}
-
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "jieshu_id")
-	public TMaster getJieshu() {
-		return jieshu;
-	}
-
-	public void setJieshu(TMaster jieshu) {
-		this.jieshu = jieshu;
-	}
-
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "weizhi_id")
-	public TMaster getWeizhi() {
-		return weizhi;
-	}
-
-	public void setWeizhi(TMaster weizhi) {
-		this.weizhi = weizhi;
-	}
-
-	public int getAllStuedentCount() {
-		return allStuedentCount;
-	}
-
-	public void setAllStuedentCount(int allStuedentCount) {
-		this.allStuedentCount = allStuedentCount;
-	}
-
-	public int getCurrentStuedentCount() {
-		return currentStuedentCount;
-	}
-
-	public void setCurrentStuedentCount(int currentStuedentCount) {
-		this.currentStuedentCount = currentStuedentCount;
 	}
 }

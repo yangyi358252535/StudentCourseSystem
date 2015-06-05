@@ -1,6 +1,5 @@
 package com.StudentCourseSystem.action.system;
 
-import java.util.List;
 import javax.annotation.Resource;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -29,20 +28,12 @@ public class CourseProcessAction extends BaseProcessAction {
 			"excludeNullProperties", "true", "excludeProperties", "",
 			"includeProperties", "message" }) })
 	public String add() {
-		List<TCourse> tmp = courseService.getCurrentCourse(course
-				.getSpecialty().getId(), course.getJieshu().getMasterid(),
-				course.getWeizhi().getMasterid());
-		if (tmp != null && tmp.size() > 0) {
-			message = "1";
-			return SUCCESS;
-		}
 		Long maxid = courseService.getMaxId();
 		if (maxid != null) {
 			course.setId(maxid + 1);
 		} else {
 			course.setId(1);
 		}
-		course.setCurrentStuedentCount(0);
 		courseService.addCourse(course);
 		return SUCCESS;
 	}
@@ -52,20 +43,6 @@ public class CourseProcessAction extends BaseProcessAction {
 			"excludeNullProperties", "true", "excludeProperties", "" }) })
 	public String modify() {
 		courseService.modifyCourse(course);
-		return SUCCESS;
-	}
-
-	@Action(value = "checkExsitProcess", params = { "contentType",
-			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json", params = {
-			"excludeNullProperties", "true", "excludeProperties", "",
-			"includeProperties", "message" }) })
-	public String checkExsit() {
-		List<TCourse> courseList = courseService.getCurrentCourse(course
-				.getZhouci().getMasterid(), course.getJieshu().getMasterid(),
-				course.getWeizhi().getMasterid());
-		if (courseList != null && courseList.size() > 0) {
-			message = "1";
-		}
 		return SUCCESS;
 	}
 
