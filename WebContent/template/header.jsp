@@ -4,15 +4,15 @@
 	<div class="left">
 		<% if((Integer)session.getAttribute("currentUserCode")==0) {%>
 			<h1 class="logo">
-			督教管理系统(管理员端)<span></span>
+			学生成绩管理系统(管理员端)<span></span>
 			</h1>
 		<% }else if((Integer)session.getAttribute("currentUserCode")==1){%>
 			<h1 class="logo">
-			督教管理系统(教师端)<span></span>
+			学生成绩管理系统(教师端)<span></span>
 			</h1>
 		<% }else if((Integer)session.getAttribute("currentUserCode")==2){%>
 			<h1 class="logo">
-			督教管理系统(督教端)<span></span>
+			学生成绩管理系统(督教端)<span></span>
 			</h1>
 		<% } %>		
 		<br clear="all" />

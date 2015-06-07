@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>督教管理系统</title>
+<title>学生成绩管理系统</title>
 <link rel="stylesheet" href="css/style.default.css" type="text/css" />
 <link rel="stylesheet" href="css/easyui.css" type="text/css" />
 <script type="text/javascript" src="js/plugins/jquery-1.7.min.js"></script>

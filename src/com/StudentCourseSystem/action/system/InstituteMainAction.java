@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.StudentCourseSystem.Service.IInstituteService;
-import com.StudentCourseSystem.bean.TClass;
 import com.StudentCourseSystem.bean.TInstitute;
 import com.StudentCourseSystem.tool.PagingUtil;
 
@@ -38,9 +37,9 @@ public class InstituteMainAction extends PagingUtil<TInstitute> {
 	private String flagString = null;
 	private String information = null;
 	{
-		setClass(TClass.class, "clasz");
+		setClass(TInstitute.class, "institute");
 		setPageableAmount(10);
-		setOrderSql(" order by clasz.id desc");
+		setOrderSql(" order by institute.id desc");
 	}
 
 	@Action(value = "toMain")
@@ -51,7 +50,7 @@ public class InstituteMainAction extends PagingUtil<TInstitute> {
 
 	@Action(value = "toList")
 	public String toList() {
-		searchClasz();
+		searchInstitute();
 		return "toList";
 	}
 
@@ -65,12 +64,9 @@ public class InstituteMainAction extends PagingUtil<TInstitute> {
 		return "toModify";
 	}
 
-	private void searchClasz() {
+	private void searchInstitute() {
 		if ("1".equals(flagString)) {
-			setSQL(" and clasz.name like ? ");
-			queryParameters.add("%" + information + "%");
-		}else if("2".equals(flagString)){
-			setSQL(" and clasz.specialty.name like ? ");
+			setSQL(" and institute.name like ? ");
 			queryParameters.add("%" + information + "%");
 		}
 		search();
@@ -120,41 +116,41 @@ public class InstituteMainAction extends PagingUtil<TInstitute> {
 	@Action(value = "toNext")
 	public String toNext() {
 		next();
-		searchClasz();
+		searchInstitute();
 		return "toList";
 	}
 
 	@Action(value = "toPrevious")
 	public String toPrevious() {
 		previous();
-		searchClasz();
+		searchInstitute();
 		return "toList";
 	}
 
 	@Action(value = "toLast")
 	public String toLast() {
 		last();
-		searchClasz();
+		searchInstitute();
 		return "toList";
 	}
 
 	@Action(value = "toFirst")
 	public String toFirst() {
 		first();
-		searchClasz();
+		searchInstitute();
 		return "toList";
 	}
 
 	@Action(value = "toPage")
 	public String toPage() {
 		page();
-		searchClasz();
+		searchInstitute();
 		return "toList";
 	}
 
 	@Action(value = "toReload")
 	public String toReload() {
-		searchClasz();
+		searchInstitute();
 		return "toList";
 	}
 

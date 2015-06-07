@@ -2,6 +2,8 @@ package com.StudentCourseSystem.Service.Impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import com.StudentCourseSystem.Dao.IInstituteDao;
@@ -34,6 +36,14 @@ public class InstituteServiceImpl implements IInstituteService {
 	@Override
 	public List<TInstitute> getAllTheInstitute() {
 		return instituteDao.getAllTheInstitute();
+	}
+
+	public IInstituteDao getInstituteDao() {
+		return instituteDao;
+	}
+	@Resource
+	public void setInstituteDao(IInstituteDao instituteDao) {
+		this.instituteDao = instituteDao;
 	}
 
 }

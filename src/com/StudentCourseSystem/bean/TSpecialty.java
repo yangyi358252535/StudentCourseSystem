@@ -1,9 +1,12 @@
 package com.StudentCourseSystem.bean;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +17,7 @@ public class TSpecialty {
 	private String name;
 	private String createDate;
 	private String comment;
+	private TInstitute institute=new TInstitute();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,4 +52,14 @@ public class TSpecialty {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "institute_id")
+	public TInstitute getInstitute() {
+		return institute;
+	}
+
+	public void setInstitute(TInstitute institute) {
+		this.institute = institute;
+	}
+	
 }

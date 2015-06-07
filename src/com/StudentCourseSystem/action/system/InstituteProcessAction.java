@@ -9,33 +9,34 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
-import com.StudentCourseSystem.Service.IClaszService;
-import com.StudentCourseSystem.bean.TClass;
+import com.StudentCourseSystem.Service.IInstituteService;
+import com.StudentCourseSystem.bean.TInstitute;
 import com.StudentCourseSystem.tool.BaseProcessAction;
+import com.StudentCourseSystem.tool.SystemUtil;
 
 @Controller
 @Scope("prototype")
 @ParentPackage("main")
-@Namespace("/system/clazz")
+@Namespace("/system/institute")
 public class InstituteProcessAction extends BaseProcessAction {
-	private static final long serialVersionUID = -2150253813306906815L;
-	private TClass clasz;
-	private IClaszService claszService;
+	private static final long serialVersionUID = 1125341968002487000L;
 	private String allIds = null;
 	private String message = "0";
-
+	private TInstitute institute=new TInstitute();
+	private IInstituteService instituteService;
 	@Action(value = "addProcess", params = { "contentType",
 			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json", params = {
 			"excludeNullProperties", "true", "excludeProperties", "" }) })
 	public String add() {
-		Long maxid = claszService.getMaxId();
+		Long maxid = instituteService.getMaxId();
 		if (maxid != null) {
-			clasz.setId(maxid + 1);
+			institute.setId(maxid + 1);
 		} else {
-			clasz.setId(1);
+			institute.setId(1);
 		}
-		claszService.addClasz(clasz);
+		institute.setCreateDate(SystemUtil.getSystemDateTime("yyyy-MM-dd HH:mm"));
+		institute.setDeleteflag(0);
+		instituteService.addInstitute(institute);
 		return SUCCESS;
 	}
 
@@ -43,7 +44,7 @@ public class InstituteProcessAction extends BaseProcessAction {
 			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json", params = {
 			"excludeNullProperties", "true", "excludeProperties", "" }) })
 	public String modify() {
-		claszService.modifyClasz(clasz);
+		instituteService.modifyInstitute(institute);
 		return SUCCESS;
 	}
 
@@ -73,21 +74,19 @@ public class InstituteProcessAction extends BaseProcessAction {
 	}
 
 	@JSON(serialize = false)
-	public TClass getClasz() {
-		return clasz;
+	public TInstitute getInstitute() {
+		return institute;
 	}
 
-	public void setClasz(TClass clasz) {
-		this.clasz = clasz;
+	public void setInstitute(TInstitute institute) {
+		this.institute = institute;
 	}
-
 	@JSON(serialize = false)
-	public IClaszService getClaszService() {
-		return claszService;
+	public IInstituteService getInstituteService() {
+		return instituteService;
 	}
-
 	@Resource
-	public void setClaszService(IClaszService claszService) {
-		this.claszService = claszService;
+	public void setInstituteService(IInstituteService instituteService) {
+		this.instituteService = instituteService;
 	}
 }
