@@ -73,7 +73,7 @@ $(document).ready(function() {
                         AlertInfo("请您选择单个课程信息");
                 }else{
                         showLoading();
-                        $("#course_main").load("../system/course/toModify.action",{'clasz.id':dataId[0]},function(){
+                        $("#course_main").load("../system/course/toModify.action",{'course.id':dataId[0]},function(){
                                 $("#userTitle").html("编辑课程信息");
                                 hideLoading();
                                 $("#coursebar").hide();
@@ -93,21 +93,21 @@ $(document).ready(function() {
         function validate(formId,type){
                 $("#"+formId).validate({
                         rules: {
-                                'clasz.name': {
+                                'course.name': {
                                         required: true
                                 },
-                                'clasz.specialty.id': {
+                                'course.specialty.id': {
                                         required: true
                                 }
                         },
                         //设置提示信息
                         messages:{
-                           'clasz.name': {
+                           'course.name': {
                                   required: "请填写课程名称"
                            },
-                           'clasz.specialty.id': {
-                                   required: "请选择所属专业"
-                           }
+                           'course.specialty.id': {
+                               required: "请选择课程所属专业"
+                       }
                         },
                         //指定错误信息位置
                         errorPlacement: function (error, element) {

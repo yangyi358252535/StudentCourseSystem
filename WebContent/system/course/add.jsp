@@ -13,10 +13,10 @@
 		</span>
 	</p>
 	<p>
-		<label><span style="color: red">*</span>任课教师</label> <span
-			class="field"> <s:select list="teacherList" id="teacherpl"
-				listKey="id" listValue="name" cssStyle="width:270px;"
-				name="course.teacher.id" cssClass="positionSelect"
+		<label><span style="color: red">*</span>所属专业</label> <span
+			class="field"> <s:select list="specialtyList" id="pl"
+				listKey="id" listValue="showName" cssStyle="width:270px;"
+				name="course.specialty.id" cssClass="positionSelect"
 				emptyOption="true"></s:select> <span class="help-inline"
 			style="color: red;"> </span>
 		</span>

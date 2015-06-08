@@ -6,11 +6,12 @@
 	style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 0px;">
 	<thead>
 		<tr>
-			<th width="1%"><s:checkbox id="selectAll" name="all" /></th>
-			<th width="2%">序号</th>
+			<th width="2%"><s:checkbox id="selectAll" name="all" /></th>
+			<th width="4%">序号</th>
 			<th width="8%">专业名称</th>
 			<th width="8%">创建时间</th>
 			<th width="40%">专业简介</th>
+			<th width="5%">删除标记</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,6 +24,9 @@
 				<td><s:property value="name" /></td>
 				<td><s:property value="createDate" /></td>
 				<td><s:property value="comment" /></td>
+				<td><s:if test="deleteflag==0">使用中</s:if> 
+					<s:if test="deleteflag==1">已删除</s:if> 
+				</td>
 			</tr>
 		</s:iterator>
 	</tbody>

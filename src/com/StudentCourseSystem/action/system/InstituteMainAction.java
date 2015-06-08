@@ -61,6 +61,7 @@ public class InstituteMainAction extends PagingUtil<TInstitute> {
 
 	@Action(value = "toModify")
 	public String toModify() {
+		institute=instituteService.getInstitute(institute.getId());
 		return "toModify";
 	}
 

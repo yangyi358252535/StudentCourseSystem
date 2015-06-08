@@ -1,9 +1,11 @@
 package com.StudentCourseSystem.action.business;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 import javax.annotation.Resource;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -13,13 +15,19 @@ import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.StudentCourseSystem.Service.IClaszService;
 import com.StudentCourseSystem.Service.ICourseService;
-import com.StudentCourseSystem.Service.ISpecialtyService;
-import com.StudentCourseSystem.Service.ITeacherService;
+import com.StudentCourseSystem.Service.IScoreService;
+import com.StudentCourseSystem.Service.IStudentService;
+import com.StudentCourseSystem.bean.TClass;
 import com.StudentCourseSystem.bean.TCourse;
+import com.StudentCourseSystem.bean.TScore;
+import com.StudentCourseSystem.bean.TStudent;
 import com.StudentCourseSystem.bean.TTeacher;
 import com.StudentCourseSystem.tool.PagingUtil;
+import com.StudentCourseSystem.tool.ScoreComparable;
 import com.StudentCourseSystem.tool.SystemConstant;
+
 
 @Controller
 @Scope("prototype")
@@ -30,25 +38,31 @@ import com.StudentCourseSystem.tool.SystemConstant;
 		@Result(name = "toMain", location = "/business/score/main.jsp"),
 		@Result(name = "toModify", location = "/business/score/modify.jsp"),
 		@Result(name = "toAdd", location = "/business/score/add.jsp"),
+		@Result(name = "toInput", location = "/business/score/input.jsp"),
+		@Result(name = "toAward", location = "/business/score/addAward.jsp"),
 		@Result(name = "LoadId", type = "json", params = { "includeProperties",
 				"currentPageIds" }),
 		@Result(name = "LoadAllId", type = "json", params = {
 				"includeProperties", "currentAllIds" }) })
-public class StudentScoreMainAction extends PagingUtil<TCourse> {
-	private static final long serialVersionUID = -5713017370765183339L;
-	private TCourse course;
+public class StudentScoreMainAction extends PagingUtil<TStudent> {
+	private static final long serialVersionUID = -5943595137712975879L;
+	private IStudentService studentService;
+	private IClaszService claszService;
+	private IScoreService scoreService;
 	private ICourseService courseService;
-	private ISpecialtyService specialtyService;
-	private ITeacherService teacherService;
-	private List<TTeacher> teacherList;
+	private TStudent student;
+	private List<TScore> scoreList;
+	private List<TClass> claszList;
 	private String currentPageIds = null;
 	private String currentAllIds = null;
 	private String flagString = null;
 	private String information = null;
+	private String condition_string;
 	{
-		setClass(TCourse.class, "course");
+		setClass(TStudent.class, "student");
+		// 每页显示十条数据
 		setPageableAmount(10);
-		setOrderSql(" order by course.id desc");
+		setOrderSql(" order by student.id desc");
 	}
 
 	@Action(value = "toMain")
@@ -59,45 +73,70 @@ public class StudentScoreMainAction extends PagingUtil<TCourse> {
 
 	@Action(value = "toList")
 	public String toList() {
-		searchCourse();
+		searchStudent();
 		return "toList";
 	}
 
 	@Action(value = "toAdd")
 	public String toAdd() {
-		Object teacher = getSession().get(SystemConstant.CURRENTUSER);
-		if(teacher instanceof TTeacher){
-			teacherList=teacherService.getAllTeacher(((TTeacher)teacher).getId());
-		}else{
-			teacherList=teacherService.getAllTeacher(0);
-		}
+		claszList = claszService.getAllTheClazz();
 		return "toAdd";
 	}
 
 	@Action(value = "toModify")
 	public String toModify() {
-		Object teacher = getSession().get(SystemConstant.CURRENTUSER);
-		if(teacher instanceof TTeacher){
-			teacherList=teacherService.getAllTeacher(((TTeacher)teacher).getId());
-		}else{
-			teacherList=teacherService.getAllTeacher(0);
-		}
-		course = courseService.getCourse(course.getId());
+		claszList = claszService.getAllTheClazz();
+		student = studentService.getStudent(student.getId());
 		return "toModify";
 	}
 
-	private void searchCourse() {
-		 Object teacher = getSession().get(SystemConstant.CURRENTUSER);
+	@Action(value = "toInput")
+	public String toInput() {
+		Set<TScore> scores = new HashSet<TScore>();
+		student = studentService.getStudent(student.getId());
+		scoreList = new ArrayList<TScore>();
+		scoreList.addAll(student.getScores());
+		if (student.getScores()==null||scoreList.size() == 0) {
+			List<TCourse> masters = courseService.getCourseBySpecialty(student.getClasz().getSpecialty().getId());
+			TScore score = null;
+			Long maxidx = null;
+			for (TCourse master : masters) {
+				score = new TScore();
+				maxidx = scoreService.getMaxId();
+				if (maxidx != null) {
+					score.setId(maxidx + 1);
+				} else {
+					score.setId(1);
+				}
+				score.setCreateDate("");
+				score.setDeleteflag(0);
+				score.setSudentName(student.getName());
+				score.setScore(0);
+				score.setType(master);
+				scoreService.addScore(score);
+				scoreService.updateStudentIdForScore(student.getId(),
+						score.getId());
+				scores.add(score);
+			}
+			scoreList.addAll(scores);
+		}
+		ScoreComparable comparable = new ScoreComparable();
+		comparable.sortASC = true;
+		Collections.sort(scoreList, comparable);
+		return "toInput";
+	}
+
+	private void searchStudent() {
+		TTeacher teacher = (TTeacher) getSession().get(
+				SystemConstant.CURRENTUSER);
 		if ("2".equals(flagString)) {
-			setSQL(" and course.teacher.name like ? ");
+			setSQL(" and student.name like ? ");
 			queryParameters.add("%" + information + "%");
 		} else if ("1".equals(flagString)) {
-			setSQL(" and course.name like ? ");
+			setSQL(" and student.num like ? ");
 			queryParameters.add("%" + information + "%");
 		}
-		if(teacher instanceof TTeacher){
-			setSQL(" and course.specialty.id =" +((TTeacher)teacher).getSpecialty().getId());
-		}
+		setSQL(" and student.clasz.specialty.id =" + teacher.getSpecialty().getId());
 		search();
 	}
 
@@ -145,41 +184,41 @@ public class StudentScoreMainAction extends PagingUtil<TCourse> {
 	@Action(value = "toNext")
 	public String toNext() {
 		next();
-		searchCourse();
+		searchStudent();
 		return "toList";
 	}
 
 	@Action(value = "toPrevious")
 	public String toPrevious() {
 		previous();
-		searchCourse();
+		searchStudent();
 		return "toList";
 	}
 
 	@Action(value = "toLast")
 	public String toLast() {
 		last();
-		searchCourse();
+		searchStudent();
 		return "toList";
 	}
 
 	@Action(value = "toFirst")
 	public String toFirst() {
 		first();
-		searchCourse();
+		searchStudent();
 		return "toList";
 	}
 
 	@Action(value = "toPage")
 	public String toPage() {
 		page();
-		searchCourse();
+		searchStudent();
 		return "toList";
 	}
 
 	@Action(value = "toReload")
 	public String toReload() {
-		searchCourse();
+		searchStudent();
 		return "toList";
 	}
 
@@ -200,48 +239,77 @@ public class StudentScoreMainAction extends PagingUtil<TCourse> {
 	}
 
 	@JSON(serialize = false)
-	public TCourse getCourse() {
-		return course;
+	public IStudentService getStudentService() {
+		return studentService;
 	}
 
-	public void setCourse(TCourse course) {
-		this.course = course;
+	@Resource
+	public void setStudentService(IStudentService studentService) {
+		this.studentService = studentService;
 	}
 
+	@JSON(serialize = false)
+	public TStudent getStudent() {
+		return student;
+	}
+
+	public void setStudent(TStudent student) {
+		this.student = student;
+	}
+
+	@JSON(serialize = false)
+	public List<TClass> getClaszList() {
+		return claszList;
+	}
+
+	public void setClaszList(List<TClass> claszList) {
+		this.claszList = claszList;
+	}
+
+	@JSON(serialize = false)
+	public IClaszService getClaszService() {
+		return claszService;
+	}
+
+	@Resource
+	public void setClaszService(IClaszService claszService) {
+		this.claszService = claszService;
+	}
+
+	@JSON(serialize = false)
+	public List<TScore> getScoreList() {
+		return scoreList;
+	}
+
+	public void setScoreList(List<TScore> scoreList) {
+		this.scoreList = scoreList;
+	}
+
+	@JSON(serialize = false)
+	public IScoreService getScoreService() {
+		return scoreService;
+	}
+
+	@Resource
+	public void setScoreService(IScoreService scoreService) {
+		this.scoreService = scoreService;
+	}
+
+	@JSON(serialize = false)
+	public String getCondition_string() {
+		return condition_string;
+	}
+
+	public void setCondition_string(String condition_string) {
+		this.condition_string = condition_string;
+	}
 	@JSON(serialize = false)
 	public ICourseService getCourseService() {
 		return courseService;
 	}
-
 	@Resource
 	public void setCourseService(ICourseService courseService) {
 		this.courseService = courseService;
 	}
 
-	@JSON(serialize = false)
-	public List<TTeacher> getTeacherList() {
-		return teacherList;
-	}
-
-	public void setTeacherList(List<TTeacher> teacherList) {
-		this.teacherList = teacherList;
-	}
-
-	@JSON(serialize = false)
-	public ISpecialtyService getSpecialtyService() {
-		return specialtyService;
-	}
-
-	public void setSpecialtyService(ISpecialtyService specialtyService) {
-		this.specialtyService = specialtyService;
-	}
-	@JSON(serialize = false)
-	public ITeacherService getTeacherService() {
-		return teacherService;
-	}
-	@Resource
-	public void setTeacherService(ITeacherService teacherService) {
-		this.teacherService = teacherService;
-	}
-	
 }

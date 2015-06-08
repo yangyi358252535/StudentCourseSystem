@@ -24,12 +24,12 @@ import com.StudentCourseSystem.tool.SystemConstant;
 @Controller
 @Scope("prototype")
 @ParentPackage("main")
-@Namespace("/business/student")
+@Namespace("/system/student")
 @Results({
-		@Result(name = "toList", location = "/business/student/list.jsp"),
-		@Result(name = "toMain", location = "/business/student/main.jsp"),
-		@Result(name = "toModify", location = "/business/student/modify.jsp"),
-		@Result(name = "toAdd", location = "/business/student/add.jsp"),
+		@Result(name = "toList", location = "/system/student/list.jsp"),
+		@Result(name = "toMain", location = "/system/student/main.jsp"),
+		@Result(name = "toModify", location = "/system/student/modify.jsp"),
+		@Result(name = "toAdd", location = "/system/student/add.jsp"),
 		@Result(name = "LoadId", type = "json", params = { "includeProperties",
 				"currentPageIds" }),
 		@Result(name = "LoadAllId", type = "json", params = {

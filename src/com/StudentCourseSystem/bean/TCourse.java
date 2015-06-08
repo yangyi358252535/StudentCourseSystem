@@ -15,7 +15,7 @@ public class TCourse {
 
 	private long id;
 	private String name;
-	private TTeacher teacher = new TTeacher();
+	private TSpecialty specialty = new TSpecialty();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,14 +34,14 @@ public class TCourse {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "teacher_id")
-	public TTeacher getTeacher() {
-		return teacher;
+	@JoinColumn(name = "specialty_id")
+	public TSpecialty getSpecialty() {
+		return specialty;
 	}
 
-	public void setTeacher(TTeacher teacher) {
-		this.teacher = teacher;
+	public void setSpecialty(TSpecialty specialty) {
+		this.specialty = specialty;
 	}
+	
 }

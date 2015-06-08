@@ -18,6 +18,7 @@ public class TClass {
 	private String name;
 	private TSpecialty specialty = new TSpecialty();
 	private String showName;
+	private int deleteflag;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -58,5 +59,12 @@ public class TClass {
 	public void setShowName(String showName) {
 		this.showName = showName;
 	}
-	
+
+	public int getDeleteflag() {
+		return deleteflag;
+	}
+
+	public void setDeleteflag(int deleteflag) {
+		this.deleteflag = deleteflag;
+	}
 }

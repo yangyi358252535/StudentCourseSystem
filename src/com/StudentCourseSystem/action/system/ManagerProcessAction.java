@@ -53,7 +53,7 @@ public class ManagerProcessAction extends BaseProcessAction {
 				setCurrentUser(manager);
 				menuAndAuthInfoList = new ArrayList<Map<String, List<TAuthAndSourceInfo>>>();
 				List<TAuthAndSourceInfo> authAndSourceInfoList = null;
-				for(int i=1;i<=3;i++){
+				for(int i=1;i<=2;i++){
 					authAndSourceInfoList=managerService.getAuthAndSourceInfo(i);
 					if(authAndSourceInfoList!=null){
 						map_AuthAndSourceInfo=new HashMap<String, List<TAuthAndSourceInfo>>();

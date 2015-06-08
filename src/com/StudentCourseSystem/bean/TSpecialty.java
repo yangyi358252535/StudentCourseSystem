@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "T_SPECIALTY")
@@ -19,6 +20,7 @@ public class TSpecialty {
 	private String comment;
 	private TInstitute institute=new TInstitute();
 	private int deleteflag;
+	private String showName;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -69,5 +71,17 @@ public class TSpecialty {
 
 	public void setDeleteflag(int deleteflag) {
 		this.deleteflag = deleteflag;
+	}
+	@Transient
+	public String getShowName() {
+		showName="";
+		if(institute!=null){
+			showName=institute.getName()+"--"+name;
+		}
+		return showName;
+	}
+
+	public void setShowName(String showName) {
+		this.showName = showName;
 	}
 }

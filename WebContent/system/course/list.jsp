@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<table id="clazzlist" class="stdtable stdtablecb" cellspacing="0"
+<table id="courselist" class="stdtable stdtablecb" cellspacing="0"
 	cellpadding="0" border="0"
 	style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 0px;">
 	<thead>
 		<tr>
 			<th width="1%"><s:checkbox id="selectAll" name="all" /></th>
 			<th width="2%">序号</th>
-			<th width="8%">班级名称</th>
+			<th width="8%">课程名称</th>
 			<th width="8%">所属专业</th>
 		</tr>
 	</thead>
@@ -28,7 +28,7 @@
 <div class="dataTables_info" id="dyntable2_info"
 	style="margin-left: 20px; margin-right: 20px;">
 	<span class="txt-smaller txt-light"> 当前共有<span class="number"
-		style="color: red;"><s:property value="resultCount" /> </span>个班级信息
+		style="color: red;"><s:property value="resultCount" /> </span>个课程信息
 	</span>
 </div>
 <div class="dataTables_paginate paging_full_numbers"

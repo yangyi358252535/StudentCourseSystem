@@ -27,7 +27,7 @@ import com.StudentCourseSystem.tool.SystemUtil;
 @Controller
 @Scope("prototype")
 @ParentPackage("main")
-@Namespace("/business/student")
+@Namespace("/system/student")
 public class StudentProcessAction extends BaseProcessAction {
 	private static final long serialVersionUID = -7518344973574116467L;
 	private String username;
@@ -142,8 +142,7 @@ public class StudentProcessAction extends BaseProcessAction {
 		tmp.setName(student.getName());
 		tmp.setSex(student.getSex());
 		tmp.setTel(student.getTel());
-		tmp.setAge(student.getAge());
-		tmp.setClass1(claszService.getClasz(student.getClass1().getId()));
+		tmp.setClasz(claszService.getClasz(student.getClasz().getId()));
 		studentService.modifyStudent(tmp);
 		return SUCCESS;
 	}

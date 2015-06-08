@@ -1,7 +1,9 @@
 package com.StudentCourseSystem.action.system;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -10,9 +12,11 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
 import com.StudentCourseSystem.Service.ICourseService;
-import com.StudentCourseSystem.Service.ITeacherService;
+import com.StudentCourseSystem.Service.ISpecialtyService;
 import com.StudentCourseSystem.bean.TCourse;
+import com.StudentCourseSystem.bean.TSpecialty;
 import com.StudentCourseSystem.bean.TTeacher;
 import com.StudentCourseSystem.tool.PagingUtil;
 import com.StudentCourseSystem.tool.SystemConstant;
@@ -34,8 +38,8 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 	private static final long serialVersionUID = -5713017370765183339L;
 	private TCourse course;
 	private ICourseService courseService;
-	private ITeacherService teacherService;
-	private List<TTeacher> teacherList;
+	private ISpecialtyService specialtyService;
+	private List<TSpecialty> specialtyList;
 	private String currentPageIds = null;
 	private String currentAllIds = null;
 	private String flagString = null;
@@ -60,13 +64,13 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 
 	@Action(value = "toAdd")
 	public String toAdd() {
-		teacherList = teacherService.getAllTeacher(0);
+		specialtyList=specialtyService.getAllSpecialty();
 		return "toAdd";
 	}
 
 	@Action(value = "toModify")
 	public String toModify() {
-		teacherList = teacherService.getAllTeacher(0);
+		specialtyList=specialtyService.getAllSpecialty();
 		course = courseService.getCourse(course.getId());
 		return "toModify";
 	}
@@ -203,23 +207,21 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 	public void setCourseService(ICourseService courseService) {
 		this.courseService = courseService;
 	}
-
 	@JSON(serialize = false)
-	public List<TTeacher> getTeacherList() {
-		return teacherList;
+	public ISpecialtyService getSpecialtyService() {
+		return specialtyService;
 	}
-
-	public void setTeacherList(List<TTeacher> teacherList) {
-		this.teacherList = teacherList;
-	}
-
-	@JSON(serialize = false)
-	public ITeacherService getTeacherService() {
-		return teacherService;
-	}
-
 	@Resource
-	public void setTeacherService(ITeacherService teacherService) {
-		this.teacherService = teacherService;
+	public void setSpecialtyService(ISpecialtyService specialtyService) {
+		this.specialtyService = specialtyService;
 	}
+	@JSON(serialize = false)
+	public List<TSpecialty> getSpecialtyList() {
+		return specialtyList;
+	}
+	
+	public void setSpecialtyList(List<TSpecialty> specialtyList) {
+		this.specialtyList = specialtyList;
+	}
+	
 }

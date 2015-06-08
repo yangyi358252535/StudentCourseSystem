@@ -14,8 +14,6 @@ public interface ICourseDao {
 
 	public Long getMaxId();
 
-	public List<TCourse> getCourseByTeacher(long tid);
+	public List<TCourse> getCourseBySpecialty(long sid);
 
-	public List<TCourse> getCurrentCourse(long specialtyid, long jieshuid,
-			long weizhiid);
 }

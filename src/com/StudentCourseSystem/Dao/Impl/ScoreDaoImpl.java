@@ -7,16 +7,17 @@ import javax.annotation.Resource;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
-import com.StudentCourseSystem.Dao.IClaszDao;
-import com.StudentCourseSystem.bean.TClass;
-
-@Component("claszDao")
-public class ClaszDaoImpl implements IClaszDao {
+import com.StudentCourseSystem.Dao.IScoreDao;
+import com.StudentCourseSystem.bean.TMaster;
+import com.StudentCourseSystem.bean.TScore;
+@Component("scoreDao")
+public class ScoreDaoImpl implements IScoreDao {
 	private HibernateTemplate hibernateTemplate;
 
 	public HibernateTemplate getHibernateTemplate() {
@@ -27,20 +28,19 @@ public class ClaszDaoImpl implements IClaszDao {
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;
 	}
-
 	@Override
-	public TClass get(long id) {
-		return hibernateTemplate.get(TClass.class, id);
+	public TScore get(long id) {
+		return hibernateTemplate.get(TScore.class, id);
 	}
 
 	@Override
-	public void add(TClass clasz) {
-		hibernateTemplate.save(clasz);
+	public void add(TScore score) {
+		hibernateTemplate.save(score);
 	}
 
 	@Override
-	public void modify(TClass clasz) {
-		hibernateTemplate.update(clasz);
+	public void modify(TScore score) {
+		hibernateTemplate.update(score);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -52,7 +52,7 @@ public class ClaszDaoImpl implements IClaszDao {
 					public List doInHibernate(Session session)
 							throws HibernateException, SQLException {
 						Query query = session
-								.createQuery("select max(u.id) from TClass u ");
+								.createQuery("select max(u.id) from TScore u ");
 						return query.list();
 					}
 				});
@@ -60,10 +60,16 @@ public class ClaszDaoImpl implements IClaszDao {
 		return d;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<TClass> getAllTheClazz() {
-		return hibernateTemplate.find("from TClass t where t.deleteflag=0");
+	public TMaster getTheMasterById(long id) {
+		return hibernateTemplate.get(TMaster.class, id);
 	}
 
+	@Override
+	public void updateStudentIdForScore(long studentId, long scoreId) {
+		Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+		SQLQuery query = null;
+		query = session.createSQLQuery("update t_score t set t.student_id="+studentId+" where t.id="+scoreId);
+		query.executeUpdate();
+	}
 }

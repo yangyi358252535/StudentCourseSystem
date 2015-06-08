@@ -27,4 +27,5 @@
 		<button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>
 	</p>
 	<s:hidden name="institute.id"></s:hidden>
+	<s:hidden name="institute.createDate"></s:hidden>
 </form>

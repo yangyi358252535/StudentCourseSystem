@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 /**
- * 权限信息
+ * 标记信息表
  */
 @Entity
 @Table(name="T_MASTER")
@@ -17,8 +17,8 @@ public class TMaster implements Serializable {
 	private long masterid;
 	private String code;
 	private String mastername;
+	private String mark;
 	public TMaster(){
-		
 	}
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -40,5 +40,10 @@ public class TMaster implements Serializable {
 	public void setMastername(String mastername) {
 		this.mastername = mastername;
 	}
-	
+	public String getMark() {
+		return mark;
+	}
+	public void setMark(String mark) {
+		this.mark = mark;
+	}
 }

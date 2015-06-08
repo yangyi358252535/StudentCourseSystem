@@ -13,10 +13,10 @@ $(document).ready(function() {
         showMain();
         $("#add_but").click(function() {
                 showLoading();
-                $("#teacher_main").load("../system/teacher/toAdd.action", function() {
-                        $("#userTitle").html("添加教师信息");
+                $("#student_main").load("../system/student/toAdd.action", function() {
+                        $("#userTitle").html("添加学生信息");
                         hideLoading();
-                        $("#teacherbar").hide();
+                        $("#studentbar").hide();
                         validate("addForm","add");
                         $("#add_b").click(function(){
                                 $("#addForm").submit();
@@ -41,7 +41,7 @@ $(document).ready(function() {
                 $("#input").css("background","white");
                 hideInformation();
                 var con1=$('#condition1').val();
-                clearSession("/system/teacher");
+                clearSession("/system/student");
                 if(con1==0){
                         data={};
                         showMain();
@@ -66,17 +66,17 @@ $(document).ready(function() {
 //              hideInformation('effect');
         }
         $("#edit_but").click(function(){
-                loadAllIds("/system/teacher");
+                loadAllIds("/system/student");
                 if(dataId.length==0||dataId=="null"){
-                        AlertInfo("请选择要修改的教师信息");
+                        AlertInfo("请选择要修改的学生信息");
                 }else if(dataId.length>1){
-                        AlertInfo("请您选择单个教师信息");
+                        AlertInfo("请您选择单个学生信息");
                 }else{
                         showLoading();
-                        $("#teacher_main").load("../system/teacher/toModify.action",{'teacher.id':dataId[0]},function(){
-                                $("#userTitle").html("编辑教师信息");
+                        $("#student_main").load("../system/student/toModify.action",{'teacher.id':dataId[0]},function(){
+                                $("#userTitle").html("编辑学生信息");
                                 hideLoading();
-                                $("#teacherbar").hide();
+                                $("#studentbar").hide();
                                 $('#edit_b').click(function() {
                                         $('#editForm').submit();
                                 });
@@ -112,7 +112,7 @@ $(document).ready(function() {
                         //设置提示信息
                         messages:{
                         	'teacher.name': {
-            					required: "请填写教师姓名"
+            					required: "请填写学生姓名"
             				},
             				'teacher.age': {
             					required: "请您输入年龄",
@@ -120,11 +120,11 @@ $(document).ready(function() {
             					gt:"年龄必须大于0"
             				},
             				'teacher.tel': {
-            					required: "请填写教师联系电话",
+            					required: "请填写学生联系电话",
             					cellphone:"请输入正确的联系电话"
             				},
             				'teacher.specialty.id':{
-            					required: "请选择教师所属专业",
+            					required: "请选择学生所属专业",
             				}
                         },
                         //指定错误信息位置
@@ -135,7 +135,7 @@ $(document).ready(function() {
                         focusInvalid: true,
                         submitHandler: function(form) {
                                 if(type=="add"){
-                                        confirmInformation("你确定要添加教师信息吗？",function(){
+                                        confirmInformation("你确定要添加学生信息吗？",function(){
                                                 // 提交表单<br>
                                                 var option = {
                                                                 data:{},
@@ -146,7 +146,7 @@ $(document).ready(function() {
                                                                 success : function() {
                                                                         data={};
                                                                         showMain();
-                                                                        setTimeout('AlertInfo("教师信息添加成功")',1800);
+                                                                        setTimeout('AlertInfo("学生信息添加成功")',1800);
                                                                 },error : function (jqXHR, textStatus, errorThrown) {
                                                                         showAlertDialog(errorThrown + " " + textStatus);
                                                                 }
@@ -154,7 +154,7 @@ $(document).ready(function() {
                                                 $('#'+formId).ajaxSubmit(option);
                                         });
                                 }else{
-                                        confirmInformation("你确定要修改教师信息吗？",function(){
+                                        confirmInformation("你确定要修改学生信息吗？",function(){
                                                 // 提交表单<br>
                                                 var option = {
                                                                 data:{},
@@ -165,7 +165,7 @@ $(document).ready(function() {
                                                                 success : function() {
                                                                         data={};
                                                                         showMain();
-                                                                        setTimeout('AlertInfo("教师信息修改成功")',1800);
+                                                                        setTimeout('AlertInfo("学生信息修改成功")',1800);
                                                                 },error : function (jqXHR, textStatus, errorThrown) {
                                                                         showAlertDialog(errorThrown + " " + textStatus);
                                                                 }
@@ -178,7 +178,7 @@ $(document).ready(function() {
         }
         function showMain(){
                 clearError('input');
-                toDateList('teacher_main','teacherbar','teacherlist','/system/teacher',data,'id',generalIdList);
-                $("#userTitle").html("教师信息列表");
+                toDateList('student_main','studentbar','studentlist','/system/student',data,'id',generalIdList);
+                $("#userTitle").html("学生信息列表");
         }
 });

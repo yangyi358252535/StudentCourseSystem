@@ -73,7 +73,7 @@ $(document).ready(function() {
                         AlertInfo("请您选择单个学院信息");
                 }else{
                         showLoading();
-                        $("#institute_main").load("../system/institute/toModify.action",{'clasz.id':dataId[0]},function(){
+                        $("#institute_main").load("../system/institute/toModify.action",{'institute.id':dataId[0]},function(){
                                 $("#userTitle").html("编辑学院信息");
                                 hideLoading();
                                 $("#institutebar").hide();

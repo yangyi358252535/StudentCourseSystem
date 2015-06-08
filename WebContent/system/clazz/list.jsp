@@ -9,6 +9,7 @@
 			<th width="1%"><s:checkbox id="selectAll" name="all" /></th>
 			<th width="2%">序号</th>
 			<th width="8%">班级名称</th>
+			<th width="8%">所属学院</th>
 			<th width="8%">所属专业</th>
 		</tr>
 	</thead>
@@ -20,6 +21,7 @@
 				</td>
 				<td><s:property value="#st.count+(currentPage-1)*10" /></td>
 				<td><s:property value="name" /></td>
+				<td><s:property value="specialty.institute.name" /></td>
 				<td><s:property value="specialty.name" /></td>
 			</tr>
 		</s:iterator>

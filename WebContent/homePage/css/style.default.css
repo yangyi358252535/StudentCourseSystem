@@ -7152,3 +7152,15 @@ button.close {
     text-align: right;
     padding: 5px 20px 0px 0px;
 }
+.field label {
+    display: inline;
+    padding: 20px;
+    vertical-align: top;
+    text-align: center;
+    font-weight: bold;
+}
+.field label {
+    float: none !important;
+    text-align: right;
+    padding: 5px 20px 0px 0px;
+}

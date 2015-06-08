@@ -1,9 +1,6 @@
 package com.StudentCourseSystem.action.myinfo;
 
-import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -12,11 +9,9 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
-import com.StudentCourseSystem.Service.ICourseService;
-import com.StudentCourseSystem.Service.ISpecialtyService;
-import com.StudentCourseSystem.Service.ITeacherService;
+import com.StudentCourseSystem.Service.IScoreService;
 import com.StudentCourseSystem.bean.TCourse;
+import com.StudentCourseSystem.bean.TScore;
 import com.StudentCourseSystem.bean.TTeacher;
 import com.StudentCourseSystem.tool.PagingUtil;
 import com.StudentCourseSystem.tool.SystemConstant;
@@ -34,13 +29,10 @@ import com.StudentCourseSystem.tool.SystemConstant;
 				"currentPageIds" }),
 		@Result(name = "LoadAllId", type = "json", params = {
 				"includeProperties", "currentAllIds" }) })
-public class MyScoreMainAction extends PagingUtil<TCourse> {
-	private static final long serialVersionUID = -8899972362050315933L;
-	private TCourse course;
-	private ICourseService courseService;
-	private ISpecialtyService specialtyService;
-	private ITeacherService teacherService;
-	private List<TTeacher> teacherList;
+public class MyScoreMainAction extends PagingUtil<TScore> {
+	private static final long serialVersionUID = 7726461249338915850L;
+	private TScore score;
+	private IScoreService scoreService;
 	private String currentPageIds = null;
 	private String currentAllIds = null;
 	private String flagString = null;
@@ -65,24 +57,11 @@ public class MyScoreMainAction extends PagingUtil<TCourse> {
 
 	@Action(value = "toAdd")
 	public String toAdd() {
-		Object teacher = getSession().get(SystemConstant.CURRENTUSER);
-		if(teacher instanceof TTeacher){
-			teacherList=teacherService.getAllTeacher(((TTeacher)teacher).getId());
-		}else{
-			teacherList=teacherService.getAllTeacher(0);
-		}
 		return "toAdd";
 	}
 
 	@Action(value = "toModify")
 	public String toModify() {
-		Object teacher = getSession().get(SystemConstant.CURRENTUSER);
-		if(teacher instanceof TTeacher){
-			teacherList=teacherService.getAllTeacher(((TTeacher)teacher).getId());
-		}else{
-			teacherList=teacherService.getAllTeacher(0);
-		}
-		course = courseService.getCourse(course.getId());
 		return "toModify";
 	}
 
@@ -198,50 +177,21 @@ public class MyScoreMainAction extends PagingUtil<TCourse> {
 	public void setInformation(String information) {
 		this.information = information;
 	}
-
 	@JSON(serialize = false)
-	public TCourse getCourse() {
-		return course;
+	public TScore getScore() {
+		return score;
 	}
 
-	public void setCourse(TCourse course) {
-		this.course = course;
-	}
-
-	@JSON(serialize = false)
-	public ICourseService getCourseService() {
-		return courseService;
-	}
-
-	@Resource
-	public void setCourseService(ICourseService courseService) {
-		this.courseService = courseService;
-	}
-
-	@JSON(serialize = false)
-	public List<TTeacher> getTeacherList() {
-		return teacherList;
-	}
-
-	public void setTeacherList(List<TTeacher> teacherList) {
-		this.teacherList = teacherList;
-	}
-
-	@JSON(serialize = false)
-	public ISpecialtyService getSpecialtyService() {
-		return specialtyService;
-	}
-
-	public void setSpecialtyService(ISpecialtyService specialtyService) {
-		this.specialtyService = specialtyService;
+	public void setScore(TScore score) {
+		this.score = score;
 	}
 	@JSON(serialize = false)
-	public ITeacherService getTeacherService() {
-		return teacherService;
+	public IScoreService getScoreService() {
+		return scoreService;
 	}
 	@Resource
-	public void setTeacherService(ITeacherService teacherService) {
-		this.teacherService = teacherService;
+	public void setScoreService(IScoreService scoreService) {
+		this.scoreService = scoreService;
 	}
 	
 }
