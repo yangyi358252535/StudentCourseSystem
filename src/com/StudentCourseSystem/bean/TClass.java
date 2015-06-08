@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "T_CLAZZ")
@@ -16,6 +17,7 @@ public class TClass {
 	private long id;
 	private String name;
 	private TSpecialty specialty = new TSpecialty();
+	private String showName;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,4 +46,17 @@ public class TClass {
 	public void setSpecialty(TSpecialty specialty) {
 		this.specialty = specialty;
 	}
+	@Transient
+	public String getShowName() {
+		showName="";
+		if(specialty!=null){
+			showName=specialty.getInstitute().getName()+"--"+specialty.getName()+"--"+name;
+		}
+		return showName;
+	}
+
+	public void setShowName(String showName) {
+		this.showName = showName;
+	}
+	
 }
