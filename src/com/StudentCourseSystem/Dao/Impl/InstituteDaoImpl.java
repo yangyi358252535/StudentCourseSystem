@@ -63,7 +63,7 @@ public class InstituteDaoImpl implements IInstituteDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TInstitute> getAllTheInstitute() {
-		return hibernateTemplate.find("from　TInstitute　");
+		return hibernateTemplate.find("from　TInstitute　t where t.deleteflag=0 ");
 	}
 
 }

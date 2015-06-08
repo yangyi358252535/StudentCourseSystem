@@ -95,13 +95,19 @@ $(document).ready(function() {
                         rules: {
                                 'specialty.name': {
                                         required: true
+                                },
+                                'specialty.institute.id':{
+                                	 required: true
                                 }
                         },
                         //设置提示信息
                         messages:{
                            'specialty.name': {
                                  required: "请填写专业名称"
-                           }
+                           },
+                           'specialty.institute.id':{
+                          	 required: "请选择专业所属学院"
+                          }
                         },
                         //指定错误信息位置
                         errorPlacement: function (error, element) {

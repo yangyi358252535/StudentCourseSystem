@@ -1,5 +1,7 @@
 package com.StudentCourseSystem.action.system;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.struts2.convention.annotation.Action;
@@ -11,7 +13,9 @@ import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.StudentCourseSystem.Service.IInstituteService;
 import com.StudentCourseSystem.Service.ISpecialtyService;
+import com.StudentCourseSystem.bean.TInstitute;
 import com.StudentCourseSystem.bean.TSpecialty;
 import com.StudentCourseSystem.tool.PagingUtil;
 
@@ -32,6 +36,8 @@ public class SpecialtyMainAction extends PagingUtil<TSpecialty> {
 	private static final long serialVersionUID = 533978026665638195L;
 	private TSpecialty specialty;
 	private ISpecialtyService specialtyService;
+	private IInstituteService instituteService;
+	private List<TInstitute> instituteList;
 	private String currentPageIds = null;
 	private String currentAllIds = null;
 	private String flagString = null;
@@ -56,12 +62,14 @@ public class SpecialtyMainAction extends PagingUtil<TSpecialty> {
 
 	@Action(value = "toAdd")
 	public String toAdd() {
+		instituteList=instituteService.getAllTheInstitute();
 		return "toAdd";
 	}
 
 	@Action(value = "toModify")
 	public String toModify() {
 		specialty=specialtyService.getSpecialty(specialty.getId());
+		instituteList=instituteService.getAllTheInstitute();
 		return "toModify";
 	}
 
@@ -189,5 +197,21 @@ public class SpecialtyMainAction extends PagingUtil<TSpecialty> {
 	public void setSpecialtyService(ISpecialtyService specialtyService) {
 		this.specialtyService = specialtyService;
 	}
+	@JSON(serialize = false)
+	public List<TInstitute> getInstituteList() {
+		return instituteList;
+	}
 
+	public void setInstituteList(List<TInstitute> instituteList) {
+		this.instituteList = instituteList;
+	}
+	@JSON(serialize = false)
+	public IInstituteService getInstituteService() {
+		return instituteService;
+	}
+	@Resource
+	public void setInstituteService(IInstituteService instituteService) {
+		this.instituteService = instituteService;
+	}
+	
 }

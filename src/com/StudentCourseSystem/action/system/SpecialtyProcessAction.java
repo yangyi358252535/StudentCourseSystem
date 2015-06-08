@@ -38,6 +38,7 @@ public class SpecialtyProcessAction extends BaseProcessAction {
 		}
 		specialty.setCreateDate(SystemUtil
 				.getSystemDateTime("yyyy-MM-dd HH:mm"));
+		specialty.setDeleteflag(0);
 		specialtyService.addSpecialty(specialty);
 		return SUCCESS;
 	}

@@ -13,6 +13,15 @@
 		</span>
 	</p>
 	<p>
+		<label><span style="color: red">*</span>所属学院</label> <span
+			class="field"> <s:select list="instituteList" id="pl"
+				listKey="id" listValue="name" cssStyle="width:250px;"
+				name="specialty.institute.id" cssClass="positionSelect"
+				emptyOption="true"></s:select> <span class="help-inline"
+			style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
 		<label>专业简介</label> <span class="field"> <s:textarea
 				name="specialty.comment" cssStyle="width:400px;height:100px;"></s:textarea>
 		</span>

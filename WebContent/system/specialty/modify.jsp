@@ -17,6 +17,20 @@
 				name="specialty.comment" cssStyle="width:400px;height:100px;"></s:textarea>
 		</span>
 	</p>
+	<p>
+		<label><span style="color: red">*</span>所属学院</label> <span
+			class="field"> <s:select list="instituteList" id="pl"
+				listKey="id" listValue="name" cssStyle="width:250px;"
+				name="specialty.institute.id" cssClass="positionSelect"
+				emptyOption="true"></s:select> <span class="help-inline"
+			style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>删除标记</label> <span
+			class="field"> <s:radio list="#{0:'使用',1:'禁用'}" name="specialty.deleteflag"></s:radio>
+		</span>
+	</p>
 	<p class="stdformbutton">
 		<button class="stdbtn btn_blue" type="button" id="edit_b">修改</button>
 		<button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>

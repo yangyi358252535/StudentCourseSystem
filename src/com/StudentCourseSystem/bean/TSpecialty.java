@@ -18,6 +18,7 @@ public class TSpecialty {
 	private String createDate;
 	private String comment;
 	private TInstitute institute=new TInstitute();
+	private int deleteflag;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,5 +62,12 @@ public class TSpecialty {
 	public void setInstitute(TInstitute institute) {
 		this.institute = institute;
 	}
-	
+
+	public int getDeleteflag() {
+		return deleteflag;
+	}
+
+	public void setDeleteflag(int deleteflag) {
+		this.deleteflag = deleteflag;
+	}
 }
