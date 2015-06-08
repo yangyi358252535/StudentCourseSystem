@@ -15,7 +15,7 @@ import com.StudentCourseSystem.tool.BaseProcessAction;
 @Controller
 @Scope("prototype")
 @ParentPackage("main")
-@Namespace("/business/course")
+@Namespace("/system/course")
 public class CourseProcessAction extends BaseProcessAction {
 	private static final long serialVersionUID = 4905860383844315738L;
 	private TCourse course = new TCourse();

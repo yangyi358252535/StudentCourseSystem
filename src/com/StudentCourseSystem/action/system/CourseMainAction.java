@@ -11,11 +11,8 @@ import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import com.StudentCourseSystem.Service.ICourseService;
-import com.StudentCourseSystem.Service.ISpecialtyService;
 import com.StudentCourseSystem.Service.ITeacherService;
 import com.StudentCourseSystem.bean.TCourse;
-import com.StudentCourseSystem.bean.TMaster;
-import com.StudentCourseSystem.bean.TSpecialty;
 import com.StudentCourseSystem.bean.TTeacher;
 import com.StudentCourseSystem.tool.PagingUtil;
 import com.StudentCourseSystem.tool.SystemConstant;
@@ -23,12 +20,12 @@ import com.StudentCourseSystem.tool.SystemConstant;
 @Controller
 @Scope("prototype")
 @ParentPackage("main")
-@Namespace("/business/course")
+@Namespace("/system/course")
 @Results({
-		@Result(name = "toList", location = "/business/course/list.jsp"),
-		@Result(name = "toMain", location = "/business/course/main.jsp"),
-		@Result(name = "toModify", location = "/business/course/modify.jsp"),
-		@Result(name = "toAdd", location = "/business/course/add.jsp"),
+		@Result(name = "toList", location = "/system/course/list.jsp"),
+		@Result(name = "toMain", location = "/system/course/main.jsp"),
+		@Result(name = "toModify", location = "/system/course/modify.jsp"),
+		@Result(name = "toAdd", location = "/system/course/add.jsp"),
 		@Result(name = "LoadId", type = "json", params = { "includeProperties",
 				"currentPageIds" }),
 		@Result(name = "LoadAllId", type = "json", params = {
@@ -37,13 +34,8 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 	private static final long serialVersionUID = -5713017370765183339L;
 	private TCourse course;
 	private ICourseService courseService;
-	private ISpecialtyService specialtyService;
 	private ITeacherService teacherService;
 	private List<TTeacher> teacherList;
-	private List<TSpecialty> specialtyList;
-	private List<TMaster> zhouciList;
-	private List<TMaster> jieshuList;
-	private List<TMaster> weizhiList;
 	private String currentPageIds = null;
 	private String currentAllIds = null;
 	private String flagString = null;
@@ -68,33 +60,13 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 
 	@Action(value = "toAdd")
 	public String toAdd() {
-		zhouciList = getMasterListByCode("001");
-		jieshuList = getMasterListByCode("002");
-		weizhiList = getMasterListByCode("003");
-		Object teacher = getSession().get(SystemConstant.CURRENTUSER);
-		if (teacher instanceof TTeacher) {
-			teacherList = teacherService.getAllTeacher(((TTeacher) teacher)
-					.getId());
-		} else {
-			teacherList = teacherService.getAllTeacher(0);
-		}
-		specialtyList = specialtyService.getAllSpecialty();
+		teacherList = teacherService.getAllTeacher(0);
 		return "toAdd";
 	}
 
 	@Action(value = "toModify")
 	public String toModify() {
-		zhouciList = getMasterListByCode("001");
-		jieshuList = getMasterListByCode("002");
-		weizhiList = getMasterListByCode("003");
-		Object teacher = getSession().get(SystemConstant.CURRENTUSER);
-		if (teacher instanceof TTeacher) {
-			teacherList = teacherService.getAllTeacher(((TTeacher) teacher)
-					.getId());
-		} else {
-			teacherList = teacherService.getAllTeacher(0);
-		}
-		specialtyList = specialtyService.getAllSpecialty();
+		teacherList = teacherService.getAllTeacher(0);
 		course = courseService.getCourse(course.getId());
 		return "toModify";
 	}
@@ -233,57 +205,12 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 	}
 
 	@JSON(serialize = false)
-	public List<TMaster> getZhouciList() {
-		return zhouciList;
-	}
-
-	public void setZhouciList(List<TMaster> zhouciList) {
-		this.zhouciList = zhouciList;
-	}
-
-	@JSON(serialize = false)
-	public List<TMaster> getJieshuList() {
-		return jieshuList;
-	}
-
-	public void setJieshuList(List<TMaster> jieshuList) {
-		this.jieshuList = jieshuList;
-	}
-
-	@JSON(serialize = false)
-	public List<TMaster> getWeizhiList() {
-		return weizhiList;
-	}
-
-	public void setWeizhiList(List<TMaster> weizhiList) {
-		this.weizhiList = weizhiList;
-	}
-
-	@JSON(serialize = false)
 	public List<TTeacher> getTeacherList() {
 		return teacherList;
 	}
 
 	public void setTeacherList(List<TTeacher> teacherList) {
 		this.teacherList = teacherList;
-	}
-
-	@JSON(serialize = false)
-	public ISpecialtyService getSpecialtyService() {
-		return specialtyService;
-	}
-
-	public void setSpecialtyService(ISpecialtyService specialtyService) {
-		this.specialtyService = specialtyService;
-	}
-
-	@JSON(serialize = false)
-	public List<TSpecialty> getSpecialtyList() {
-		return specialtyList;
-	}
-
-	public void setSpecialtyList(List<TSpecialty> specialtyList) {
-		this.specialtyList = specialtyList;
 	}
 
 	@JSON(serialize = false)

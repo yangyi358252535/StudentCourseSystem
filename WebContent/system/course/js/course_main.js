@@ -13,10 +13,10 @@ $(document).ready(function() {
         showMain();
         $("#add_but").click(function() {
                 showLoading();
-                $("#clazz_main").load("../system/clazz/toAdd.action", function() {
-                        $("#userTitle").html("添加班级信息");
+                $("#course_main").load("../system/course/toAdd.action", function() {
+                        $("#userTitle").html("添加课程信息");
                         hideLoading();
-                        $("#clazzbar").hide();
+                        $("#coursebar").hide();
                         validate("addForm","add");
                         $("#add_b").click(function(){
                                 $("#addForm").submit();
@@ -41,7 +41,7 @@ $(document).ready(function() {
                 $("#input").css("background","white");
                 hideInformation();
                 var con1=$('#condition1').val();
-                clearSession("/system/clazz");
+                clearSession("/system/course");
                 if(con1==0){
                         data={};
                         showMain();
@@ -66,17 +66,17 @@ $(document).ready(function() {
 //              hideInformation('effect');
         }
         $("#edit_but").click(function(){
-                loadAllIds("/system/clazz");
+                loadAllIds("/system/course");
                 if(dataId.length==0||dataId=="null"){
-                        AlertInfo("请选择要修改的班级信息");
+                        AlertInfo("请选择要修改的课程信息");
                 }else if(dataId.length>1){
-                        AlertInfo("请您选择单个班级信息");
+                        AlertInfo("请您选择单个课程信息");
                 }else{
                         showLoading();
-                        $("#clazz_main").load("../system/clazz/toModify.action",{'clasz.id':dataId[0]},function(){
-                                $("#userTitle").html("编辑班级信息");
+                        $("#course_main").load("../system/course/toModify.action",{'clasz.id':dataId[0]},function(){
+                                $("#userTitle").html("编辑课程信息");
                                 hideLoading();
-                                $("#clazzbar").hide();
+                                $("#coursebar").hide();
                                 $('#edit_b').click(function() {
                                         $('#editForm').submit();
                                 });
@@ -103,7 +103,7 @@ $(document).ready(function() {
                         //设置提示信息
                         messages:{
                            'clasz.name': {
-                                  required: "请填写班级名称"
+                                  required: "请填写课程名称"
                            },
                            'clasz.specialty.id': {
                                    required: "请选择所属专业"
@@ -117,7 +117,7 @@ $(document).ready(function() {
                         focusInvalid: true,
                         submitHandler: function(form) {
                                 if(type=="add"){
-                                        confirmInformation("你确定要添加班级信息吗？",function(){
+                                        confirmInformation("你确定要添加课程信息吗？",function(){
                                                 // 提交表单<br>
                                                 var option = {
                                                                 data:{},
@@ -128,7 +128,7 @@ $(document).ready(function() {
                                                                 success : function() {
                                                                         data={};
                                                                         showMain();
-                                                                        setTimeout('AlertInfo("班级信息添加成功")',1800);
+                                                                        setTimeout('AlertInfo("课程信息添加成功")',1800);
                                                                 },error : function (jqXHR, textStatus, errorThrown) {
                                                                         showAlertDialog(errorThrown + " " + textStatus);
                                                                 }
@@ -136,7 +136,7 @@ $(document).ready(function() {
                                                 $('#'+formId).ajaxSubmit(option);
                                         });
                                 }else{
-                                        confirmInformation("你确定要修改班级信息吗？",function(){
+                                        confirmInformation("你确定要修改课程信息吗？",function(){
                                                 // 提交表单<br>
                                                 var option = {
                                                                 data:{},
@@ -147,7 +147,7 @@ $(document).ready(function() {
                                                                 success : function() {
                                                                         data={};
                                                                         showMain();
-                                                                        setTimeout('AlertInfo("班级信息修改成功")',1800);
+                                                                        setTimeout('AlertInfo("课程信息修改成功")',1800);
                                                                 },error : function (jqXHR, textStatus, errorThrown) {
                                                                         showAlertDialog(errorThrown + " " + textStatus);
                                                                 }
@@ -160,7 +160,7 @@ $(document).ready(function() {
         }
         function showMain(){
                 clearError('input');
-                toDateList('clazz_main','clazzbar','clazzlist','/system/clazz',data,'id',generalIdList);
-                $("#userTitle").html("班级信息列表");
+                toDateList('course_main','coursebar','courselist','/system/course',data,'id',generalIdList);
+                $("#userTitle").html("课程信息列表");
         }
 });
