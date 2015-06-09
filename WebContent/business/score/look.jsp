@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<form action="../business/score/scoreProcess.action" method="post"
-	style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+<form style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
 	id="addForm">
 	<ul class="buttonlist">
 		<li style=" padding-left: 50px;">学号&nbsp;&nbsp;
@@ -57,7 +56,7 @@
 								<td style="border-left: 1px solid #DDD;"><s:property value="#st.count+(currentPage-1)*10" /></td>
 								<td><s:property value="type.name" /></td>
 								<td>
-									<s:textfield name="score" cssClass="input-mini focused" cssStyle="text-align:right;font-weight:bold;float:right;"></s:textfield>
+									<s:property value="score" />
 								</td>
 								<td><s:property value="year_str" /></td>
 								<td><s:property value="term.mark" /></td>
@@ -67,7 +66,6 @@
 		</table>
 	</div>
 	<p class="stdformbutton">
-		<button class="stdbtn btn_blue" type="button" id="edit_b">提交</button>
 		<button class="stdbtn btn_black" type="button" id="cancel_b">取消</button>
 	</p>
 </form>

@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.annotation.Resource;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -36,10 +38,8 @@ import com.StudentCourseSystem.tool.SystemConstant;
 @Results({
 		@Result(name = "toList", location = "/business/score/list.jsp"),
 		@Result(name = "toMain", location = "/business/score/main.jsp"),
-		@Result(name = "toModify", location = "/business/score/modify.jsp"),
-		@Result(name = "toAdd", location = "/business/score/add.jsp"),
+		@Result(name = "toLook", location = "/business/score/look.jsp"),
 		@Result(name = "toInput", location = "/business/score/input.jsp"),
-		@Result(name = "toAward", location = "/business/score/addAward.jsp"),
 		@Result(name = "LoadId", type = "json", params = { "includeProperties",
 				"currentPageIds" }),
 		@Result(name = "LoadAllId", type = "json", params = {
@@ -53,11 +53,13 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 	private TStudent student;
 	private List<TScore> scoreList;
 	private List<TClass> claszList;
+	private String year_str="2015";
 	private String currentPageIds = null;
 	private String currentAllIds = null;
 	private String flagString = null;
 	private String information = null;
 	private String condition_string;
+	private int showflag=0;
 	{
 		setClass(TStudent.class, "student");
 		// 每页显示十条数据
@@ -68,6 +70,12 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 	@Action(value = "toMain")
 	public String toMain() {
 		clearSession();
+		Object user = getSession().get(SystemConstant.CURRENTUSER);
+		if(user instanceof TTeacher){
+			showflag=1;
+		}else{
+			showflag=0;
+		}
 		return "toMain";
 	}
 
@@ -76,18 +84,19 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 		searchStudent();
 		return "toList";
 	}
-
-	@Action(value = "toAdd")
-	public String toAdd() {
-		claszList = claszService.getAllTheClazz();
-		return "toAdd";
-	}
-
-	@Action(value = "toModify")
-	public String toModify() {
-		claszList = claszService.getAllTheClazz();
+	@Action(value = "toLook")
+	public String toLook() {
 		student = studentService.getStudent(student.getId());
-		return "toModify";
+		scoreList = new ArrayList<TScore>();
+		for (TScore score1 : student.getScores()) {
+			if (score1.getYear_str().equals(year_str)) {
+				scoreList.add(score1);
+			}
+		}
+		ScoreComparable comparable = new ScoreComparable();
+		comparable.sortASC = true;
+		Collections.sort(scoreList, comparable);
+		return "toLook";
 	}
 
 	@Action(value = "toInput")
@@ -95,8 +104,12 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 		Set<TScore> scores = new HashSet<TScore>();
 		student = studentService.getStudent(student.getId());
 		scoreList = new ArrayList<TScore>();
-		scoreList.addAll(student.getScores());
-		if (student.getScores()==null||scoreList.size() == 0) {
+		for (TScore score1 : student.getScores()) {
+			if (score1.getYear_str().equals(year_str)) {
+				scoreList.add(score1);
+			}
+		}
+		if (scoreList.size() == 0) {
 			List<TCourse> masters = courseService.getCourseBySpecialty(student.getClasz().getSpecialty().getId());
 			TScore score = null;
 			Long maxidx = null;
@@ -112,6 +125,28 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 				score.setDeleteflag(0);
 				score.setSudentName(student.getName());
 				score.setScore(0);
+				score.setTerm(scoreService.getTheMasterById(14));
+				score.setYear_str(year_str);
+				score.setType(master);
+				scoreService.addScore(score);
+				scoreService.updateStudentIdForScore(student.getId(),
+						score.getId());
+				scores.add(score);
+			}
+			for (TCourse master : masters) {
+				score = new TScore();
+				maxidx = scoreService.getMaxId();
+				if (maxidx != null) {
+					score.setId(maxidx + 1);
+				} else {
+					score.setId(1);
+				}
+				score.setCreateDate("");
+				score.setDeleteflag(0);
+				score.setSudentName(student.getName());
+				score.setScore(0);
+				score.setTerm(scoreService.getTheMasterById(15));
+				score.setYear_str(year_str);
 				score.setType(master);
 				scoreService.addScore(score);
 				scoreService.updateStudentIdForScore(student.getId(),
@@ -127,8 +162,6 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 	}
 
 	private void searchStudent() {
-		TTeacher teacher = (TTeacher) getSession().get(
-				SystemConstant.CURRENTUSER);
 		if ("2".equals(flagString)) {
 			setSQL(" and student.name like ? ");
 			queryParameters.add("%" + information + "%");
@@ -136,7 +169,6 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 			setSQL(" and student.num like ? ");
 			queryParameters.add("%" + information + "%");
 		}
-		setSQL(" and student.clasz.specialty.id =" + teacher.getSpecialty().getId());
 		search();
 	}
 
@@ -310,6 +342,21 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 	@Resource
 	public void setCourseService(ICourseService courseService) {
 		this.courseService = courseService;
+	}
+	@JSON(serialize = false)
+	public String getYear_str() {
+		return year_str;
+	}
+	public void setYear_str(String year_str) {
+		this.year_str = year_str;
+	}
+	@JSON(serialize = false)
+	public int getShowflag() {
+		return showflag;
+	}
+
+	public void setShowflag(int showflag) {
+		this.showflag = showflag;
 	}
 
 }

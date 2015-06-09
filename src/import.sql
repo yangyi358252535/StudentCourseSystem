@@ -8,7 +8,7 @@ insert into t_authandsourceinfo values(4,'专业信息维护',1,'系统信息管
 insert into t_authandsourceinfo values(5,'课程信息管理',1,'系统信息管理','../system/course/toMain.action');
 insert into t_authandsourceinfo values(6,'学生信息管理',1,'系统信息管理','../system/student/toMain.action');
 
-insert into t_authandsourceinfo values(7,'学生成绩管理',2,'业务管理','../business/score/toMain.action');
+insert into t_authandsourceinfo values(7,'学生成绩管理',2,'教务管理','../business/score/toMain.action');
 
 insert into t_authandsourceinfo values(8,'我的成绩管理',3,'我的信息管理','../myinfo/score/toMain.action');
 

@@ -11,23 +11,6 @@ $(document).ready(function() {
 	});
 	forSearchCondition();
 	showMain();
-	$("#add_but").click(function() {
-		showLoading();
-		$("#student_main").load("../business/score/toAdd.action", function() {
-			hideLoading();
-			$("#studentbar").hide();
-			validate("addForm","add");
-			$("#add_b111").click(function(){
-				$("#addForm").submit();
-			});
-			$('#cancel_b').click(function() { 
-				data={};
-				showMain();
-			});
-		});
-		//初始化全局ID
-		dataId=[];
-	});
 	$("#input_but").click(function(){
 		loadAllIds("/business/score");
 		if(dataId.length==0||dataId=="null"){
@@ -45,7 +28,8 @@ $(document).ready(function() {
 				$('#edit_b').click(function() {
 					var result=true;
 					var score=null;
-					for(var i=0;i<20;i++){
+					var size=$('#tbody').find("tr").size();
+					for(var i=0;i<size;i++){
 						score=$("#score"+i).val();
 						score=score.trim();
 						if (score == "") {
@@ -138,22 +122,19 @@ $(document).ready(function() {
 	function clearError(id){
 		$("#"+id).css("background","white");
 	}
-	$("#edit_but").click(function(){
+	$("#look_but").click(function(){
 		loadAllIds("/business/score");
 		if(dataId.length==0||dataId=="null"){
-			setTimeout('AlertInfo("请选择要修改的学生信息")',100);
+			setTimeout('AlertInfo("请选择要查看的学生信息")',100);
 		}else if(dataId.length>1){
 			setTimeout('AlertInfo("请您选择单条学生信息")',100);
 		}else{
+			var year_str=$("#year_str").val();
 			showLoading();
-			$("#student_main").load("../business/score/toModify.action",{'student.id':dataId[0]},function(){
-				$("#userTitle").html("编辑学生信息");
+			$("#student_main").load("../business/score/toLook.action",{'student.id':dataId[0],'year_str':year_str},function(){
+				$("#userTitle").html("查看学生成绩");
 				hideLoading();
 				$("#studentbar").hide();
-				$('#edit_b').click(function() {
-					$('#editForm').submit();
-				});
-				validate("editForm","modify");
 				$('#cancel_b').click(function() {
 					data={};
 					showMain();
@@ -163,76 +144,6 @@ $(document).ready(function() {
 		//清空全局Ids
 		dataId = [];
 	});
-	function validate(formId,type){
-		$("#"+formId).validate({						  
-			rules: {
-				'student.name': {
-					required: true
-				},
-				'student.tel':{
-					required: true,
-					isMobile:true
-				}
-			},
-			//设置提示信息
-			messages:{
-				'student.name': {
-					required: "请输入学生姓名"
-				},
-				'student.tel':{
-					required: "请输入联系电话",
-					isMobile:"请填写正确的联系电话格式"
-				}
-			},
-			//指定错误信息位置
-			errorPlacement: function (error, element) { 
-      			element.parent().find("span").append(error);
-			},
-			//设置验证触发事件
-			focusInvalid: true,   
-			submitHandler: function(form) {
-				if(type=="add"){
-					confirmInformation("你确定要添加学生吗？",function(){
-						// 提交表单<br>
-						var option = {
-								data:{},
-								beforeSubmit : function() {
-									showLoading();
-									return true;
-								},
-								success : function() {
-									data={};
-									showMain();
-									setTimeout('AlertInfo("学生添加成功")',1800);
-								},error : function (jqXHR, textStatus, errorThrown) {
-									showAlertDialog(errorThrown + " " + textStatus);
-								}
-							};
-						$('#'+formId).ajaxSubmit(option); 
-					});
-				}else{
-					confirmInformation("你确定要修改学生信息吗？",function(){
-						// 提交表单<br>
-						var option = {
-								data:{},
-								beforeSubmit : function() {
-									showLoading();
-									return true;
-								},
-								success : function() {
-									data={};
-									showMain();
-									setTimeout('AlertInfo("学生修改成功")',1800);
-								},error : function (jqXHR, textStatus, errorThrown) {
-									showAlertDialog(errorThrown + " " + textStatus);
-								}
-							};
-						$('#'+formId).ajaxSubmit(option); 
-					});
-				}
-			}
-		});
-	}
 	function greneralIds(){
 		var i=0;
 		$("#scoreList tbody").find("td").find("input").each(function(){

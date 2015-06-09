@@ -25,7 +25,7 @@ $(document).ready(function() {
 			}else if(role==2){
 				url='system/teacher/toLogin.action';
 			}else{
-				url='system/supervise/toLogin.action';
+				url='system/student/toLogin.action';
 			}
 			$.ajax({
 				url : url,

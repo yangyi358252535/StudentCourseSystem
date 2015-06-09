@@ -13,7 +13,6 @@
 			<div style="position: relative;left:170px;bottom:60px;font-size: 16px;">
 				<div style="padding-bottom: 5px;">账号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${currentUser.num}</div>
 				<div style="padding-bottom: 5px;">姓名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${currentUser.name}</div>
-				<div style="padding-bottom: 5px;">工龄&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1年</div>
 				<div>权限&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${currentUserAuth}</div>
 			</div>
 		</div>
