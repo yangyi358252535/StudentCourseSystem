@@ -13,7 +13,7 @@ $(document).ready(function() {
 	showMain();
 	$("#add_but").click(function() {
 		showLoading();
-		$("#student_main").load("../business/student/toAdd.action", function() {
+		$("#student_main").load("../business/score/toAdd.action", function() {
 			hideLoading();
 			$("#studentbar").hide();
 			validate("addForm","add");
@@ -28,82 +28,8 @@ $(document).ready(function() {
 		//初始化全局ID
 		dataId=[];
 	});
-	$("#award_but").click(function(){
-		loadAllIds("/business/student");
-		if(dataId.length==0||dataId=="null"){
-			setTimeout('AlertInfo("请选择要录入奖项绩的学生信息")',100);
-		}else if(dataId.length>1){
-			setTimeout('AlertInfo("请您选择单条学生信息")',100);
-		}else{
-			var year_str=$("#year_str").val();
-			showLoading();
-			$("#student_main").load("../business/student/toAward.action",{'student.id':dataId[0],'year_str':year_str},function(){
-				hideLoading();
-				$("#userTitle").html("录入学生奖项");
-				$("#studentbar").hide();
-				$('#cancel_b').click(function() {
-					data={};
-					showMain();
-				});
-				$("#choise_award_but").click(function(){
-					$("#myModal").empty();
-					$("#myModal").load("../business/student/choiceAward.jsp",function(){
-						openMyModel(800,500,"myModal");
-						$("#se_award_but").click(); 
-					});
-				});
-				$("#add_b").click(function(){
-					var size=$("#awardDetail tbody").find("tr").size();
-					if(size<=0){
-						AlertInfo("请选择要添加的奖项");
-					}else{
-						confirmInformation("你确定要添加奖项信息吗？",function(){
-							// 提交表单<br>
-							var option = {
-									data:{},
-									beforeSubmit : function() {
-										showLoading();
-										return true;
-									},
-									success : function() {
-										data={};
-										showMain();
-										setTimeout('AlertInfo("奖项添加成功")',1800);
-									},error : function (jqXHR, textStatus, errorThrown) {
-										showAlertDialog(errorThrown + " " + textStatus);
-									}
-								};
-							$('#addForm').ajaxSubmit(option); 
-						});
-					}
-				});
-				$(".deleteButton").click(function(){
-					var tr=$(this).parent().parent();
-					var id=$(this).parent().parent().find("input[class='hiddenId']").val();
-					if(id!=null&&id!=undefined&&id!=''){
-						confirmInformation("你确定要删除当前的奖项信息么,删除后不可恢复",function(){
-							//根据detailId删除记录
-							$.ajax({
-								data:{'detailId':id},
-								url : '../business/student/deleteAwardDetail.action',
-								type : 'POST',
-								async : false,
-								success : function(data) {
-									tr.remove();
-								}
-							});
-						});
-					}else{
-						tr.remove();
-					}
-				});
-			});
-		}
-		//清空全局Ids
-		dataId = [];
-	});
 	$("#input_but").click(function(){
-		loadAllIds("/business/student");
+		loadAllIds("/business/score");
 		if(dataId.length==0||dataId=="null"){
 			setTimeout('AlertInfo("请选择要录入成绩的学生信息")',100);
 		}else if(dataId.length>1){
@@ -111,7 +37,7 @@ $(document).ready(function() {
 		}else{
 			var year_str=$("#year_str").val();
 			showLoading();
-			$("#student_main").load("../business/student/toInput.action",{'student.id':dataId[0],'year_str':year_str},function(){
+			$("#student_main").load("../business/score/toInput.action",{'student.id':dataId[0],'year_str':year_str},function(){
 				$("#userTitle").html("录入学生成绩");
 				hideLoading();
 				greneralIds();
@@ -186,7 +112,7 @@ $(document).ready(function() {
 		$("#input").css("background","white");
 		hideInformation();
 		var con1=$('#condition1').val();
-		clearSession("/business/student");
+		clearSession("/business/score");
 		if(con1==0){
 			data={};
 			showMain();
@@ -213,14 +139,14 @@ $(document).ready(function() {
 		$("#"+id).css("background","white");
 	}
 	$("#edit_but").click(function(){
-		loadAllIds("/business/student");
+		loadAllIds("/business/score");
 		if(dataId.length==0||dataId=="null"){
 			setTimeout('AlertInfo("请选择要修改的学生信息")',100);
 		}else if(dataId.length>1){
 			setTimeout('AlertInfo("请您选择单条学生信息")',100);
 		}else{
 			showLoading();
-			$("#student_main").load("../business/student/toModify.action",{'student.id':dataId[0]},function(){
+			$("#student_main").load("../business/score/toModify.action",{'student.id':dataId[0]},function(){
 				$("#userTitle").html("编辑学生信息");
 				hideLoading();
 				$("#studentbar").hide();
@@ -316,6 +242,6 @@ $(document).ready(function() {
 	}
 	function showMain(){
 		clearError('input');
-		toDateList('student_main','studentbar','studentlist','/business/student',data,'id',generalIdList);
+		toDateList('student_main','studentbar','studentlist','/business/score',data,'id',generalIdList);
 	}
 });

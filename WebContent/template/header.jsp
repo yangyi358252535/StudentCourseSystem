@@ -28,10 +28,10 @@
 			</div>
 			<div class="userdata">
 				<h4>${currentUser.name}</h4>
-				<span class="email">youremail@yourdomain.com</span>
+				<span class="email">${currentUser.num}</span>
 				<ul>
-					<!-- <li><a href="#" id="profile">账户设置</a>
-					</li> -->
+					<li><a href="#" id="profile">账户设置</a>
+					</li>
 					<li><a href="#" id="logout">注销</a>
 					</li>
 				</ul>

@@ -20,8 +20,8 @@ import com.StudentCourseSystem.Service.ITeacherService;
 import com.StudentCourseSystem.bean.TAuthAndSourceInfo;
 import com.StudentCourseSystem.bean.TTeacher;
 import com.StudentCourseSystem.tool.BaseProcessAction;
+import com.StudentCourseSystem.tool.PrimaryGenerater;
 import com.StudentCourseSystem.tool.SystemConstant;
-import com.StudentCourseSystem.tool.SystemUtil;
 
 @Controller
 @Scope("prototype")
@@ -117,14 +117,12 @@ public class TeacherProcessAction extends BaseProcessAction {
 			"excludeNullProperties", "true", "excludeProperties", "" }) })
 	public String add() {
 		Long maxid = teacherService.getMaxId();
-		String userno = null;
 		if (maxid != null) {
 			teacher.setId(maxid + 1);
 		} else {
 			teacher.setId(1);
 		}
-		userno = SystemUtil.getUserNo("T");
-		teacher.setNum(userno);
+		teacher.setNum(PrimaryGenerater.getInstance().generaterNextNumber(maxid, true, "T"));
 		teacher.setPassword(SystemConstant.PASSWORD);
 		teacherService.addTeacher(teacher);
 		return SUCCESS;

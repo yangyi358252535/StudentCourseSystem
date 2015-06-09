@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script type="text/javascript"
-	src="../system/student/js/student_main.js" charset="UTF-8"></script>
+	src="../business/score/js/student_main.js" charset="UTF-8"></script>
 <div class="contenttitle2" style="margin-left: 20px;">
 	<h3 id="userTitle">学生信息列表</h3>
 </div>
@@ -17,9 +17,17 @@
 			class="inputTextCssStyle" style="width: 130px;"> &nbsp;&nbsp;
 		<a class="btn btn2 btn_search" href="#" id="search_but"><span>搜索</span>
 		</a> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
-			class="btn btn2 btn_yellow btn_inboxi" href="#" id="add_but"><span>添加</span>
+			class="btn btn2 btn_yellow btn_inboxi" href="#" id="input_but"><span>成绩录入</span>
 		</a> &nbsp;&nbsp;&nbsp;&nbsp; <a class="btn btn2 btn_black btn_tag"
-			href="#" id="edit_but"><span>编辑</span> </a>
+			href="#" id="look_but"><span>查看</span> </a>
+		&nbsp;录入成绩年份：
+		<select class="input-small focused" id="year_str">
+			<option value="2015" >2015</option>
+			<option value="2016">2016</option>
+			<option value="2017">2017</option>
+			<option value="2018">2018</option>
+			<option value="2019">2019</option>
+		</select>
 	</div>
 </div>
 <div id="student_main"></div>

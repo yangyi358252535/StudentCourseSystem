@@ -27,6 +27,8 @@ public class TStudent {
 	private String name;
 	//性别
 	private String sex;
+	//年龄
+	private int age;
 	//成绩记录
 	private Set<TScore> scores=new HashSet<TScore>();
 	//班级
@@ -96,5 +98,11 @@ public class TStudent {
 	}
 	public void setScores(Set<TScore> scores) {
 		this.scores = scores;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
 	}
 }

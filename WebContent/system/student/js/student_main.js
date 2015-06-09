@@ -73,7 +73,7 @@ $(document).ready(function() {
                         AlertInfo("请您选择单个学生信息");
                 }else{
                         showLoading();
-                        $("#student_main").load("../system/student/toModify.action",{'teacher.id':dataId[0]},function(){
+                        $("#student_main").load("../system/student/toModify.action",{'student.id':dataId[0]},function(){
                                 $("#userTitle").html("编辑学生信息");
                                 hideLoading();
                                 $("#studentbar").hide();
@@ -93,38 +93,38 @@ $(document).ready(function() {
         function validate(formId,type){
                 $("#"+formId).validate({
                         rules: {
-                        	'teacher.name': {
+                        	'student.name': {
             					required: true
             				},
-            				'teacher.age': {
+            				'student.age': {
             					required: true,
             					digits:true,
             					gt:0
             				},
-            				'teacher.tel': {
+            				'student.tel': {
             					required: true,
             					cellphone:true
             				},
-            				'teacher.specialty.id':{
+            				'student.clasz.id':{
             					required: true
             				}
                         },
                         //设置提示信息
                         messages:{
-                        	'teacher.name': {
+                        	'student.name': {
             					required: "请填写学生姓名"
             				},
-            				'teacher.age': {
+            				'student.age': {
             					required: "请您输入年龄",
             					digits:"请输入数字",
             					gt:"年龄必须大于0"
             				},
-            				'teacher.tel': {
+            				'student.tel': {
             					required: "请填写学生联系电话",
             					cellphone:"请输入正确的联系电话"
             				},
-            				'teacher.specialty.id':{
-            					required: "请选择学生所属专业",
+            				'student.clasz.id':{
+            					required: "请选择学生所属班级",
             				}
                         },
                         //指定错误信息位置

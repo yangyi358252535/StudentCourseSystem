@@ -21,6 +21,7 @@ import com.StudentCourseSystem.Service.ITeacherService;
 import com.StudentCourseSystem.bean.TAuthAndSourceInfo;
 import com.StudentCourseSystem.bean.TStudent;
 import com.StudentCourseSystem.tool.BaseProcessAction;
+import com.StudentCourseSystem.tool.PrimaryGenerater;
 import com.StudentCourseSystem.tool.SystemConstant;
 import com.StudentCourseSystem.tool.SystemUtil;
 
@@ -120,16 +121,15 @@ public class StudentProcessAction extends BaseProcessAction {
 			"excludeNullProperties", "true", "excludeProperties", "" }) })
 	public String add() {
 		Long maxid = studentService.getMaxId();
-		String userno = null;
 		if (maxid != null) {
 			student.setId(maxid + 1);
 		} else {
 			student.setId(1);
 		}
-		userno = SystemUtil.getUserNo("ST");
-		student.setNum(userno);
+		student.setNum(PrimaryGenerater.getInstance().generaterNextNumber(maxid, true, "ST"));
 		student.setScores(null);
 		student.setPassword(SystemConstant.PASSWORD);
+		student.setCreateDate(SystemUtil.getSystemDateTime("yyyy-MM-dd HH:mm"));
 		studentService.addStudent(student);
 		return SUCCESS;
 	}
@@ -142,7 +142,7 @@ public class StudentProcessAction extends BaseProcessAction {
 		tmp.setName(student.getName());
 		tmp.setSex(student.getSex());
 		tmp.setTel(student.getTel());
-		tmp.setClasz(claszService.getClasz(student.getClasz().getId()));
+		tmp.setAge(student.getAge());
 		studentService.modifyStudent(tmp);
 		return SUCCESS;
 	}
