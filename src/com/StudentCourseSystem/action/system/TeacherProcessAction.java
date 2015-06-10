@@ -65,6 +65,7 @@ public class TeacherProcessAction extends BaseProcessAction {
 					menuAndAuthInfoList.add(map_AuthAndSourceInfo);
 				}
 				getSession().put("currentUserAuth", "教师");
+				getSession().put("Specialty", teacher.getSpecialty().getName());
 				getSession().put("currentUserCode", 1);
 				getSession().put("BO_MenuAndAuthInfoList", menuAndAuthInfoList);
 				message = "success";

@@ -44,8 +44,18 @@ $(document).ready(function(){
 			var data={
 				'oldPass':oldP
 			};
+			var auth=$("#auth").val();
+			var url="";
+			var url1="";
+			if(auth==0){
+				url='../system/user/checkOldPass.action';
+			}else if(auth==1){
+				url='../system/teacher/checkOldPass.action';
+			}else if(auth==2){
+				url='../system/student/checkOldPass.action';
+			}
 			$.ajax({
-				url : '../system/user/checkOldPass.action',
+				url : url,
 				data : data,
 				type : 'POST',
 				async:false,
@@ -58,8 +68,15 @@ $(document).ready(function(){
 						var param={
 								'newPass':	n
 							};
+						if(auth==0){
+							url1='../system/user/changePass.action';
+						}else if(auth==1){
+							url1='../system/teacher/changePass.action';
+						}else if(auth==2){
+							url1='../system/student/changePass.action';
+						}
 						$.ajax({
-							url : '../system/user/changePass.action',
+							url : url1,
 							data : param,
 							type : 'POST',
 							success : function(data2) {

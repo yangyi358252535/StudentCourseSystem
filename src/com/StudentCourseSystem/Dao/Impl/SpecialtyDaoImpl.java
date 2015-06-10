@@ -63,7 +63,7 @@ public class SpecialtyDaoImpl implements ISpecialtyDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TSpecialty> getAllSpecialty() {
-		return hibernateTemplate.find("from TSpecialty");
+		return hibernateTemplate.find("from TSpecialty t where t.deleteflag=0");
 	}
 
 }

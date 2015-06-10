@@ -1,18 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
 <div class="topheader">
 	<div class="left">
 		<% if((Integer)session.getAttribute("currentUserCode")==0) {%>
 			<h1 class="logo">
+			<input type="hidden" id="auth" value="0">
 			学生成绩管理系统(管理员端)<span></span>
 			</h1>
 		<% }else if((Integer)session.getAttribute("currentUserCode")==1){%>
 			<h1 class="logo">
-			学生成绩管理系统(教师端)<span></span>
+			<input type="hidden" id="auth" value="1">
+			学生成绩管理系统(教师端)--专业:(${Specialty})<span></span>
 			</h1>
 		<% }else if((Integer)session.getAttribute("currentUserCode")==2){%>
 			<h1 class="logo">
-			学生成绩管理系统(督教端)<span></span>
+			<input type="hidden" id="auth" value="2">
+			学生成绩管理系统(学生端)--班级:(${Class})<span></span>
 			</h1>
 		<% } %>		
 		<br clear="all" />

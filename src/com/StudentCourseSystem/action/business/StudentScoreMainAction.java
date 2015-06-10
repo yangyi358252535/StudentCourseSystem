@@ -169,6 +169,11 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 			setSQL(" and student.num like ? ");
 			queryParameters.add("%" + information + "%");
 		}
+		Object user = getSession().get(SystemConstant.CURRENTUSER);
+		if(user instanceof TTeacher){
+			TTeacher t=(TTeacher)user;
+			setSQL(" and student.clasz.specialty.id="+t.getSpecialty().getId());
+		}
 		search();
 	}
 
