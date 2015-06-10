@@ -16,7 +16,7 @@
 		<% }else if((Integer)session.getAttribute("currentUserCode")==2){%>
 			<h1 class="logo">
 			<input type="hidden" id="auth" value="2">
-			学生成绩管理系统(学生端)--班级:(${Class})<span></span>
+			学生成绩管理系统(学生端)--班级:(${Clasz})<span></span>
 			</h1>
 		<% } %>		
 		<br clear="all" />

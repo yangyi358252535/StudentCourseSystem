@@ -67,7 +67,7 @@ public class StudentProcessAction extends BaseProcessAction {
 					menuAndAuthInfoList.add(map_AuthAndSourceInfo);
 				}
 				getSession().put("currentUserAuth", "");
-				getSession().put("Class", student.getClasz().getName());
+				getSession().put("Clasz", student.getClasz().getName());
 				getSession().put("currentUserCode", 2);
 				getSession().put("BO_MenuAndAuthInfoList", menuAndAuthInfoList);
 				message = "success";

@@ -2,8 +2,10 @@ package com.StudentCourseSystem.action.business;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -51,6 +53,7 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 	private IScoreService scoreService;
 	private ICourseService courseService;
 	private TStudent student;
+	private List<TCourse> courseList;
 	private List<TScore> scoreList;
 	private List<TClass> claszList;
 	private String year_str="2015";
@@ -124,6 +127,7 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 				score.setCreateDate("");
 				score.setDeleteflag(0);
 				score.setSudentName(student.getName());
+				score.setSudentId(student.getId());
 				score.setScore(0);
 				score.setTerm(scoreService.getTheMasterById(14));
 				score.setYear_str(year_str);
@@ -144,6 +148,7 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 				score.setCreateDate("");
 				score.setDeleteflag(0);
 				score.setSudentName(student.getName());
+				score.setSudentId(student.getId());
 				score.setScore(0);
 				score.setTerm(scoreService.getTheMasterById(15));
 				score.setYear_str(year_str);
@@ -154,6 +159,65 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 				scores.add(score);
 			}
 			scoreList.addAll(scores);
+		}else{
+			int scoresize=scoreList.size();
+			courseList=courseService.getCourseBySpecialty(student.getClasz().getSpecialty().getId());
+			Map<Long,Integer> dataMap=new HashMap<Long,Integer>();
+			if(courseList.size()>(scoresize/2)){
+				for (TCourse c : courseList) {
+					dataMap.put(c.getId(), 0);
+					for (TScore s : scoreList) {
+						if ((s.getType().getName()).equals(c.getName())) {
+							dataMap.put(c.getId(), 1);
+							break;
+						}
+					}
+				}
+			}
+			TScore score = null;
+			Long maxidx = null;
+			for (Long key : dataMap.keySet()) {
+				if(dataMap.get(key)==0){
+					score = new TScore();
+					maxidx = scoreService.getMaxId();
+					if (maxidx != null) {
+						score.setId(maxidx + 1);
+					} else {
+						score.setId(1);
+					}
+					score.setCreateDate("");
+					score.setDeleteflag(0);
+					score.setSudentName(student.getName());
+					score.setSudentId(student.getId());
+					score.setScore(0);
+					score.setTerm(scoreService.getTheMasterById(14));
+					score.setYear_str(year_str);
+					score.setType(courseService.getCourse(key));
+					scoreService.addScore(score);
+					scoreService.updateStudentIdForScore(student.getId(),
+							score.getId());
+					scoreList.add(score);
+					score = new TScore();
+					maxidx = scoreService.getMaxId();
+					if (maxidx != null) {
+						score.setId(maxidx + 1);
+					} else {
+						score.setId(1);
+					}
+					score.setCreateDate("");
+					score.setDeleteflag(0);
+					score.setSudentName(student.getName());
+					score.setSudentId(student.getId());
+					score.setScore(0);
+					score.setTerm(scoreService.getTheMasterById(15));
+					score.setYear_str(year_str);
+					score.setType(courseService.getCourse(key));
+					scoreService.addScore(score);
+					scoreService.updateStudentIdForScore(student.getId(),
+							score.getId());
+					scoreList.add(score);
+				}
+			}
 		}
 		ScoreComparable comparable = new ScoreComparable();
 		comparable.sortASC = true;
@@ -362,6 +426,13 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 
 	public void setShowflag(int showflag) {
 		this.showflag = showflag;
+	}
+	@JSON(serialize = false)
+	public List<TCourse> getCourseList() {
+		return courseList;
+	}
+	public void setCourseList(List<TCourse> courseList) {
+		this.courseList = courseList;
 	}
 
 }

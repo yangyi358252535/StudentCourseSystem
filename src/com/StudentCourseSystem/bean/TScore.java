@@ -23,6 +23,8 @@ public class TScore {
 	private String createDate;
 	//学生姓名
 	private String sudentName;
+	//学生主键
+	private long sudentId;
 	//分值
 	private float score;
 	//年份
@@ -84,5 +86,11 @@ public class TScore {
 	}
 	public void setSudentName(String sudentName) {
 		this.sudentName = sudentName;
+	}
+	public long getSudentId() {
+		return sudentId;
+	}
+	public void setSudentId(long sudentId) {
+		this.sudentId = sudentId;
 	}
 }
