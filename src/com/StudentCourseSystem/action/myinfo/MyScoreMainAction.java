@@ -60,11 +60,11 @@ public class MyScoreMainAction extends PagingUtil<TScore> {
 
 	private void searchScore() {
 		 TStudent student = (TStudent)getSession().get(SystemConstant.CURRENTUSER);
-		if ("2".equals(flagString)) {
+		if ("1".equals(flagString)) {
 			setSQL(" and score.type.name like ? ");
 			queryParameters.add("%" + information + "%");
-		} else if ("1".equals(flagString)) {
-			setSQL(" and score.year_str like ? ");
+		} else if (flagString!=null&&!"1".equals(flagString)) {
+			setSQL(" and score.year_str='"+flagString+"'");
 		}
 		setSQL(" and score.sudentId="+student.getId());
 		search();

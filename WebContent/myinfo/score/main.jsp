@@ -13,13 +13,13 @@
 			<option value="0">全部成绩</option>
 			<option value="1">按课程名称查询</option>
 			<option value="2">按学年查询</option>
-		</select> &nbsp;&nbsp; <input type="text" size="20px" id="input"
+		</select> &nbsp;&nbsp;<select id="condition2" tabindex="2"
+			style="width: 60px;" disabled="disabled">
+		</select>  <input type="text" size="20px" id="input"
 			class="inputTextCssStyle" style="width: 130px;"> &nbsp;&nbsp;
+			
 		<a class="btn btn2 btn_search" href="#" id="search_but"><span>搜索</span>
-		</a> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
-			class="btn btn2 btn_yellow btn_inboxi" href="#" id="add_but"><span>添加</span>
-		</a> &nbsp;&nbsp;&nbsp;&nbsp; <a class="btn btn2 btn_black btn_tag"
-			href="#" id="edit_but"><span>编辑</span> </a>
+		</a>
 	</div>
 </div>
 <div id="score_main"></div>
