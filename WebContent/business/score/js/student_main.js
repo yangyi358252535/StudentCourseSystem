@@ -19,8 +19,9 @@ $(document).ready(function() {
 			setTimeout('AlertInfo("请您选择单条学生信息")',100);
 		}else{
 			var year_str=$("#year_str").val();
+			var term_str=$("#term_str").val();
 			showLoading();
-			$("#student_main").load("../business/score/toInput.action",{'student.id':dataId[0],'year_str':year_str},function(){
+			$("#student_main").load("../business/score/toInput.action",{'student.id':dataId[0],'year_str':year_str,'term_str':term_str},function(){
 				$("#userTitle").html("录入学生成绩");
 				hideLoading();
 				greneralIds();
@@ -130,8 +131,9 @@ $(document).ready(function() {
 			setTimeout('AlertInfo("请您选择单条学生信息")',100);
 		}else{
 			var year_str=$("#year_str").val();
+			var term_str=$("#term_str").val();
 			showLoading();
-			$("#student_main").load("../business/score/toLook.action",{'student.id':dataId[0],'year_str':year_str},function(){
+			$("#student_main").load("../business/score/toLook.action",{'student.id':dataId[0],'year_str':year_str,'term_str':term_str},function(){
 				$("#userTitle").html("查看学生成绩");
 				hideLoading();
 				$("#studentbar").hide();

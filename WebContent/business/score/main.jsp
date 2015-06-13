@@ -34,6 +34,11 @@
 			<option value="2020">2020</option>
 			<option value="2021">2021</option>
 		</select>
+		&nbsp;录入成绩学期：
+		<select class="input-small focused" id="term_str">
+			<option value="1">上半学期</option>
+			<option value="2">下半学期</option>
+		</select>
 	</div>
 </div>
 <div id="student_main"></div>

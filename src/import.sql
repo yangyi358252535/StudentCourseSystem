@@ -13,6 +13,6 @@ insert into t_authandsourceinfo values(7,'学生成绩管理',2,'教务管理','
 insert into t_authandsourceinfo values(8,'我的成绩管理',3,'我的信息管理','../myinfo/score/toMain.action');
 
 
-insert into T_MANAGER values(1,0,'张三','admin','admin','15242686603');
+insert into T_MANAGER values(1,'张三','admin','admin','15242686603');
 insert into t_master values(14,'003','','上半学期');
 insert into t_master values(15,'003','','下半学期');

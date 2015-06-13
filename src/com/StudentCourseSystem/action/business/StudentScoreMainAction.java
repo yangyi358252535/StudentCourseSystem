@@ -63,6 +63,7 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 	private String information = null;
 	private String condition_string;
 	private int showflag=0;
+	private String term_str="1";
 	{
 		setClass(TStudent.class, "student");
 		// 每页显示十条数据
@@ -92,7 +93,9 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 		student = studentService.getStudent(student.getId());
 		scoreList = new ArrayList<TScore>();
 		for (TScore score1 : student.getScores()) {
-			if (score1.getYear_str().equals(year_str)) {
+			if (score1.getYear_str().equals(year_str)&&score1.getTerm().getMasterid()==14&&term_str.equals("1")) {
+				scoreList.add(score1);
+			}else if(score1.getYear_str().equals(year_str)&&score1.getTerm().getMasterid()==15&&term_str.equals("2")){
 				scoreList.add(score1);
 			}
 		}
@@ -108,7 +111,9 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 		student = studentService.getStudent(student.getId());
 		scoreList = new ArrayList<TScore>();
 		for (TScore score1 : student.getScores()) {
-			if (score1.getYear_str().equals(year_str)) {
+			if (score1.getYear_str().equals(year_str)&&score1.getTerm().getMasterid()==14&&term_str.equals("1")) {
+				scoreList.add(score1);
+			}else if(score1.getYear_str().equals(year_str)&&score1.getTerm().getMasterid()==15&&term_str.equals("2")){
 				scoreList.add(score1);
 			}
 		}
@@ -116,47 +121,50 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 			List<TCourse> masters = courseService.getCourseBySpecialty(student.getClasz().getSpecialty().getId());
 			TScore score = null;
 			Long maxidx = null;
-			for (TCourse master : masters) {
-				score = new TScore();
-				maxidx = scoreService.getMaxId();
-				if (maxidx != null) {
-					score.setId(maxidx + 1);
-				} else {
-					score.setId(1);
+			if(term_str.equals("1")){
+				for (TCourse master : masters) {
+					score = new TScore();
+					maxidx = scoreService.getMaxId();
+					if (maxidx != null) {
+						score.setId(maxidx + 1);
+					} else {
+						score.setId(1);
+					}
+					score.setCreateDate("");
+					score.setDeleteflag(0);
+					score.setSudentName(student.getName());
+					score.setSudentId(student.getId());
+					score.setScore(0);
+					score.setTerm(scoreService.getTheMasterById(14));
+					score.setYear_str(year_str);
+					score.setType(master);
+					scoreService.addScore(score);
+					scoreService.updateStudentIdForScore(student.getId(),
+							score.getId());
+					scores.add(score);
 				}
-				score.setCreateDate("");
-				score.setDeleteflag(0);
-				score.setSudentName(student.getName());
-				score.setSudentId(student.getId());
-				score.setScore(0);
-				score.setTerm(scoreService.getTheMasterById(14));
-				score.setYear_str(year_str);
-				score.setType(master);
-				scoreService.addScore(score);
-				scoreService.updateStudentIdForScore(student.getId(),
-						score.getId());
-				scores.add(score);
-			}
-			for (TCourse master : masters) {
-				score = new TScore();
-				maxidx = scoreService.getMaxId();
-				if (maxidx != null) {
-					score.setId(maxidx + 1);
-				} else {
-					score.setId(1);
+			}else if(term_str.equals("2")){
+				for (TCourse master : masters) {
+					score = new TScore();
+					maxidx = scoreService.getMaxId();
+					if (maxidx != null) {
+						score.setId(maxidx + 1);
+					} else {
+						score.setId(1);
+					}
+					score.setCreateDate("");
+					score.setDeleteflag(0);
+					score.setSudentName(student.getName());
+					score.setSudentId(student.getId());
+					score.setScore(0);
+					score.setTerm(scoreService.getTheMasterById(15));
+					score.setYear_str(year_str);
+					score.setType(master);
+					scoreService.addScore(score);
+					scoreService.updateStudentIdForScore(student.getId(),
+							score.getId());
+					scores.add(score);
 				}
-				score.setCreateDate("");
-				score.setDeleteflag(0);
-				score.setSudentName(student.getName());
-				score.setSudentId(student.getId());
-				score.setScore(0);
-				score.setTerm(scoreService.getTheMasterById(15));
-				score.setYear_str(year_str);
-				score.setType(master);
-				scoreService.addScore(score);
-				scoreService.updateStudentIdForScore(student.getId(),
-						score.getId());
-				scores.add(score);
 			}
 			scoreList.addAll(scores);
 		}else{
@@ -178,44 +186,47 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 			Long maxidx = null;
 			for (Long key : dataMap.keySet()) {
 				if(dataMap.get(key)==0){
-					score = new TScore();
-					maxidx = scoreService.getMaxId();
-					if (maxidx != null) {
-						score.setId(maxidx + 1);
-					} else {
-						score.setId(1);
+					if(term_str.equals("1")){
+						score = new TScore();
+						maxidx = scoreService.getMaxId();
+						if (maxidx != null) {
+							score.setId(maxidx + 1);
+						} else {
+							score.setId(1);
+						}
+						score.setCreateDate("");
+						score.setDeleteflag(0);
+						score.setSudentName(student.getName());
+						score.setSudentId(student.getId());
+						score.setScore(0);
+						score.setTerm(scoreService.getTheMasterById(14));
+						score.setYear_str(year_str);
+						score.setType(courseService.getCourse(key));
+						scoreService.addScore(score);
+						scoreService.updateStudentIdForScore(student.getId(),
+								score.getId());
+						scoreList.add(score);
+					}else if(term_str.equals("2")){
+						score = new TScore();
+						maxidx = scoreService.getMaxId();
+						if (maxidx != null) {
+							score.setId(maxidx + 1);
+						} else {
+							score.setId(1);
+						}
+						score.setCreateDate("");
+						score.setDeleteflag(0);
+						score.setSudentName(student.getName());
+						score.setSudentId(student.getId());
+						score.setScore(0);
+						score.setTerm(scoreService.getTheMasterById(15));
+						score.setYear_str(year_str);
+						score.setType(courseService.getCourse(key));
+						scoreService.addScore(score);
+						scoreService.updateStudentIdForScore(student.getId(),
+								score.getId());
+						scoreList.add(score);
 					}
-					score.setCreateDate("");
-					score.setDeleteflag(0);
-					score.setSudentName(student.getName());
-					score.setSudentId(student.getId());
-					score.setScore(0);
-					score.setTerm(scoreService.getTheMasterById(14));
-					score.setYear_str(year_str);
-					score.setType(courseService.getCourse(key));
-					scoreService.addScore(score);
-					scoreService.updateStudentIdForScore(student.getId(),
-							score.getId());
-					scoreList.add(score);
-					score = new TScore();
-					maxidx = scoreService.getMaxId();
-					if (maxidx != null) {
-						score.setId(maxidx + 1);
-					} else {
-						score.setId(1);
-					}
-					score.setCreateDate("");
-					score.setDeleteflag(0);
-					score.setSudentName(student.getName());
-					score.setSudentId(student.getId());
-					score.setScore(0);
-					score.setTerm(scoreService.getTheMasterById(15));
-					score.setYear_str(year_str);
-					score.setType(courseService.getCourse(key));
-					scoreService.addScore(score);
-					scoreService.updateStudentIdForScore(student.getId(),
-							score.getId());
-					scoreList.add(score);
 				}
 			}
 		}
@@ -433,6 +444,13 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 	}
 	public void setCourseList(List<TCourse> courseList) {
 		this.courseList = courseList;
+	}
+	@JSON(serialize = false)
+	public String getTerm_str() {
+		return term_str;
+	}
+	public void setTerm_str(String term_str) {
+		this.term_str = term_str;
 	}
 
 }
