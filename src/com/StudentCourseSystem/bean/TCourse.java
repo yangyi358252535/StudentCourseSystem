@@ -16,7 +16,10 @@ public class TCourse {
 	private long id;
 	private String name;
 	private TSpecialty specialty = new TSpecialty();
-
+	//学期
+	private TMaster term=new TMaster();
+	//学年
+	private String year_str;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long getId() {
@@ -43,5 +46,20 @@ public class TCourse {
 	public void setSpecialty(TSpecialty specialty) {
 		this.specialty = specialty;
 	}
-	
+	@ManyToOne(cascade=CascadeType.PERSIST)
+	@JoinColumn(name="term_id")
+	public TMaster getTerm() {
+		return term;
+	}
+	public void setTerm(TMaster term) {
+		this.term = term;
+	}
+
+	public String getYear_str() {
+		return year_str;
+	}
+
+	public void setYear_str(String year_str) {
+		this.year_str = year_str;
+	}
 }

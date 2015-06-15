@@ -10,6 +10,8 @@
 			<th width="2%">序号</th>
 			<th width="8%">课程名称</th>
 			<th width="8%">所属专业</th>
+			<th width="8%">所属学年</th>
+			<th width="8%">所属学期</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -21,6 +23,8 @@
 				<td><s:property value="#st.count+(currentPage-1)*10" /></td>
 				<td><s:property value="name" /></td>
 				<td><s:property value="specialty.name" /></td>
+				<td><s:property value="year_str" /></td>
+				<td><s:property value="term.mastername" /></td>
 			</tr>
 		</s:iterator>
 	</tbody>

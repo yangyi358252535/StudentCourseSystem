@@ -29,8 +29,6 @@ public class TScore {
 	private float score;
 	//年份
 	private String year_str;
-	//学期
-	private TMaster term=new TMaster();
 	//删除标记
 	private int deleteflag;
 	@Id
@@ -66,14 +64,6 @@ public class TScore {
 	}
 	public void setYear_str(String year_str) {
 		this.year_str = year_str;
-	}
-	@ManyToOne(cascade=CascadeType.PERSIST)
-	@JoinColumn(name="term_id")
-	public TMaster getTerm() {
-		return term;
-	}
-	public void setTerm(TMaster term) {
-		this.term = term;
 	}
 	public String getCreateDate() {
 		return createDate;

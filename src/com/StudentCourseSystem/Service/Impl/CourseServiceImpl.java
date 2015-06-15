@@ -36,8 +36,8 @@ public class CourseServiceImpl implements ICourseService {
 	}
 
 	@Override
-	public List<TCourse> getCourseBySpecialty(long sid){
-		return courseDao.getCourseBySpecialty(sid);
+	public List<TCourse> getCourseBySpecialty(long sid,String year_str,long itemid){
+		return courseDao.getCourseBySpecialty(sid, year_str, itemid);
 	}
 	public ICourseDao getCourseDao() {
 		return courseDao;

@@ -14,6 +14,6 @@ public interface ICourseService {
 
 	public Long getMaxId();
 
-	public List<TCourse> getCourseBySpecialty(long sid);
+	public List<TCourse> getCourseBySpecialty(long sid,String year_str,long itemid);
 
 }

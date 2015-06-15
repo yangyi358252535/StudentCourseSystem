@@ -93,9 +93,9 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 		student = studentService.getStudent(student.getId());
 		scoreList = new ArrayList<TScore>();
 		for (TScore score1 : student.getScores()) {
-			if (score1.getYear_str().equals(year_str)&&score1.getTerm().getMasterid()==14&&term_str.equals("1")) {
+			if (score1.getYear_str().equals(year_str)&&score1.getType().getTerm().getMasterid()==14&&term_str.equals("1")) {
 				scoreList.add(score1);
-			}else if(score1.getYear_str().equals(year_str)&&score1.getTerm().getMasterid()==15&&term_str.equals("2")){
+			}else if(score1.getYear_str().equals(year_str)&&score1.getType().getTerm().getMasterid()==15&&term_str.equals("2")){
 				scoreList.add(score1);
 			}
 		}
@@ -111,67 +111,80 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 		student = studentService.getStudent(student.getId());
 		scoreList = new ArrayList<TScore>();
 		for (TScore score1 : student.getScores()) {
-			if (score1.getYear_str().equals(year_str)&&score1.getTerm().getMasterid()==14&&term_str.equals("1")) {
+			if (score1.getType().getYear_str().equals(year_str)&&score1.getType().getTerm().getMasterid()==14&&term_str.equals("1")) {
 				scoreList.add(score1);
-			}else if(score1.getYear_str().equals(year_str)&&score1.getTerm().getMasterid()==15&&term_str.equals("2")){
+			}else if(score1.getType().getYear_str().equals(year_str)&&score1.getType().getTerm().getMasterid()==15&&term_str.equals("2")){
 				scoreList.add(score1);
 			}
 		}
 		if (scoreList.size() == 0) {
-			List<TCourse> masters = courseService.getCourseBySpecialty(student.getClasz().getSpecialty().getId());
+			List<TCourse> masters =null;
+			if(term_str.equals("1")){
+				masters=courseService.getCourseBySpecialty(student.getClasz().getSpecialty().getId(),year_str,14);
+			}else if(term_str.equals("2")){
+				masters=courseService.getCourseBySpecialty(student.getClasz().getSpecialty().getId(),year_str,15);
+			}
+			
 			TScore score = null;
 			Long maxidx = null;
 			if(term_str.equals("1")){
 				for (TCourse master : masters) {
-					score = new TScore();
-					maxidx = scoreService.getMaxId();
-					if (maxidx != null) {
-						score.setId(maxidx + 1);
-					} else {
-						score.setId(1);
+					if(master.getTerm().getMasterid()==14){
+						score = new TScore();
+						maxidx = scoreService.getMaxId();
+						if (maxidx != null) {
+							score.setId(maxidx + 1);
+						} else {
+							score.setId(1);
+						}
+						score.setCreateDate("");
+						score.setDeleteflag(0);
+						score.setSudentName(student.getName());
+						score.setSudentId(student.getId());
+						score.setScore(0);
+						score.setYear_str(year_str);
+						score.setType(master);
+						scoreService.addScore(score);
+						scoreService.updateStudentIdForScore(student.getId(),
+								score.getId());
+						scores.add(score);
 					}
-					score.setCreateDate("");
-					score.setDeleteflag(0);
-					score.setSudentName(student.getName());
-					score.setSudentId(student.getId());
-					score.setScore(0);
-					score.setTerm(scoreService.getTheMasterById(14));
-					score.setYear_str(year_str);
-					score.setType(master);
-					scoreService.addScore(score);
-					scoreService.updateStudentIdForScore(student.getId(),
-							score.getId());
-					scores.add(score);
 				}
 			}else if(term_str.equals("2")){
 				for (TCourse master : masters) {
-					score = new TScore();
-					maxidx = scoreService.getMaxId();
-					if (maxidx != null) {
-						score.setId(maxidx + 1);
-					} else {
-						score.setId(1);
+					if(master.getTerm().getMasterid()==15){
+						score = new TScore();
+						maxidx = scoreService.getMaxId();
+						if (maxidx != null) {
+							score.setId(maxidx + 1);
+						} else {
+							score.setId(1);
+						}
+						score.setCreateDate("");
+						score.setDeleteflag(0);
+						score.setSudentName(student.getName());
+						score.setSudentId(student.getId());
+						score.setScore(0);
+		//					score.setTerm(scoreService.getTheMasterById(15));
+						score.setYear_str(year_str);
+						score.setType(master);
+						scoreService.addScore(score);
+						scoreService.updateStudentIdForScore(student.getId(),
+								score.getId());
+						scores.add(score);
 					}
-					score.setCreateDate("");
-					score.setDeleteflag(0);
-					score.setSudentName(student.getName());
-					score.setSudentId(student.getId());
-					score.setScore(0);
-					score.setTerm(scoreService.getTheMasterById(15));
-					score.setYear_str(year_str);
-					score.setType(master);
-					scoreService.addScore(score);
-					scoreService.updateStudentIdForScore(student.getId(),
-							score.getId());
-					scores.add(score);
 				}
 			}
 			scoreList.addAll(scores);
 		}else{
 			int scoresize=scoreList.size();
-			courseList=courseService.getCourseBySpecialty(student.getClasz().getSpecialty().getId());
+			if(term_str.equals("1")){
+				courseList=courseService.getCourseBySpecialty(student.getClasz().getSpecialty().getId(),year_str,14);
+			}else if(term_str.equals("2")){
+				courseList=courseService.getCourseBySpecialty(student.getClasz().getSpecialty().getId(),year_str,15);
+			}
 			Map<Long,Integer> dataMap=new HashMap<Long,Integer>();
-			if(courseList.size()>(scoresize/2)){
+			if(courseList.size()>scoresize){
 				for (TCourse c : courseList) {
 					dataMap.put(c.getId(), 0);
 					for (TScore s : scoreList) {
@@ -199,7 +212,7 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 						score.setSudentName(student.getName());
 						score.setSudentId(student.getId());
 						score.setScore(0);
-						score.setTerm(scoreService.getTheMasterById(14));
+//						score.setTerm(scoreService.getTheMasterById(14));
 						score.setYear_str(year_str);
 						score.setType(courseService.getCourse(key));
 						scoreService.addScore(score);
@@ -219,7 +232,7 @@ public class StudentScoreMainAction extends PagingUtil<TStudent> {
 						score.setSudentName(student.getName());
 						score.setSudentId(student.getId());
 						score.setScore(0);
-						score.setTerm(scoreService.getTheMasterById(15));
+//						score.setTerm(scoreService.getTheMasterById(15));
 						score.setYear_str(year_str);
 						score.setType(courseService.getCourse(key));
 						scoreService.addScore(score);

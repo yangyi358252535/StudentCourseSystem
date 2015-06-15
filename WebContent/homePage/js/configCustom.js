@@ -48,7 +48,7 @@ $(document).ready(function(){
 			var url="";
 			var url1="";
 			if(auth==0){
-				url='../system/user/checkOldPass.action';
+				url='../system/manager/checkOldPass.action';
 			}else if(auth==1){
 				url='../system/teacher/checkOldPass.action';
 			}else if(auth==2){
@@ -69,7 +69,7 @@ $(document).ready(function(){
 								'newPass':	n
 							};
 						if(auth==0){
-							url1='../system/user/changePass.action';
+							url1='../system/manager/changePass.action';
 						}else if(auth==1){
 							url1='../system/teacher/changePass.action';
 						}else if(auth==2){

@@ -18,7 +18,6 @@ public class TManager {
 	private String name;
 	private String tel;
 	private String password;
-	private int authority;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,14 +51,6 @@ public class TManager {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getAuthority() {
-		return authority;
-	}
-
-	public void setAuthority(int authority) {
-		this.authority = authority;
 	}
 
 	public String getTel() {

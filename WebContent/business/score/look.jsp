@@ -59,7 +59,7 @@
 									<s:property value="score" />
 								</td>
 								<td><s:property value="year_str" /></td>
-								<td><s:property value="term.mark" /></td>
+								<td><s:property value="type.term.mastername" /></td>
 							</tr>
 						</s:iterator>
 			</tbody>

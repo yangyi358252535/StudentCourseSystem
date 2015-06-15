@@ -120,8 +120,8 @@ $(document).ready(function() {
             					gt:"年龄必须大于0"
             				},
             				'teacher.tel': {
-            					required: "请填写教师联系电话",
-            					cellphone:"请输入正确的联系电话"
+            					required: "请填写教师手机号码",
+            					cellphone:"请正确填写手机号码"
             				},
             				'teacher.specialty.id':{
             					required: "请选择教师所属专业",

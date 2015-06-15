@@ -22,7 +22,7 @@
 					<s:property value="score"></s:property>
 				</td>
 				<td><s:property value="year_str" /></td>
-				<td><s:property value="term.mark" /></td>
+				<td><s:property value="type.term.mastername" /></td>
 			</tr>
 		</s:iterator>
 	</tbody>

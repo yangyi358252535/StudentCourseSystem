@@ -60,7 +60,7 @@
 									<s:textfield name="score" cssClass="input-mini focused" cssStyle="text-align:right;font-weight:bold;float:right;"></s:textfield>
 								</td>
 								<td><s:property value="year_str" /></td>
-								<td><s:property value="term.mark" /></td>
+								<td><s:property value="type.term.mastername" /></td>
 							</tr>
 						</s:iterator>
 			</tbody>

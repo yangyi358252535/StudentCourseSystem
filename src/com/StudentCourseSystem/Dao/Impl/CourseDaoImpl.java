@@ -62,12 +62,12 @@ public class CourseDaoImpl implements ICourseDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<TCourse> getCourseBySpecialty(long sid) {
+	public List<TCourse> getCourseBySpecialty(long sid,String year_str,long itemid) {
 		if(sid==0){
 			return hibernateTemplate.find("from TCourse t");
 		}else{
 			return hibernateTemplate.find("from TCourse t where t.specialty.id="
-					+ sid);
+					+ sid+" and t.year_str='"+year_str+"' and t.term.id="+itemid);
 		}
 	}
 

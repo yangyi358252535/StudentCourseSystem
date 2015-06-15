@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import com.StudentCourseSystem.Service.ICourseService;
 import com.StudentCourseSystem.Service.ISpecialtyService;
 import com.StudentCourseSystem.bean.TCourse;
+import com.StudentCourseSystem.bean.TMaster;
 import com.StudentCourseSystem.bean.TSpecialty;
 import com.StudentCourseSystem.bean.TTeacher;
 import com.StudentCourseSystem.tool.PagingUtil;
@@ -40,6 +41,7 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 	private ICourseService courseService;
 	private ISpecialtyService specialtyService;
 	private List<TSpecialty> specialtyList;
+	private List<TMaster> masterList;
 	private String currentPageIds = null;
 	private String currentAllIds = null;
 	private String flagString = null;
@@ -64,6 +66,7 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 
 	@Action(value = "toAdd")
 	public String toAdd() {
+		masterList=getMasterListByCode("003");
 		specialtyList=specialtyService.getAllSpecialty();
 		return "toAdd";
 	}
@@ -223,5 +226,12 @@ public class CourseMainAction extends PagingUtil<TCourse> {
 	public void setSpecialtyList(List<TSpecialty> specialtyList) {
 		this.specialtyList = specialtyList;
 	}
-	
+	@JSON(serialize = false)
+	public List<TMaster> getMasterList() {
+		return masterList;
+	}
+
+	public void setMasterList(List<TMaster> masterList) {
+		this.masterList = masterList;
+	}
 }
